@@ -2,7 +2,15 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { toPng } from 'html-to-image'
-import { Camera, Check, Minus, Plus, QrCode, ShoppingCart } from 'lucide-react'
+import {
+  Camera,
+  Check,
+  Minus,
+  Plus,
+  QrCode,
+  ShoppingCart,
+  Trash2,
+} from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 
@@ -870,7 +878,7 @@ export default function ScanToOrder() {
       )}
 
       <Sheet open={showCart} onOpenChange={setShowCart}>
-        <SheetContent className='flex w-full max-w-105 flex-col gap-0 p-0'>
+        <SheetContent className='flex w-full max-w-none flex-col gap-0 p-0 sm:max-w-105'>
           <SheetHeader className='flex-row items-center justify-between gap-2 border-b border-border p-4.5'>
             <SheetTitle className='text-base font-bold'>
               Your Order{' '}
@@ -921,9 +929,10 @@ export default function ScanToOrder() {
                   </div>
                   <button
                     onClick={() => removeCartLine(line.key)}
-                    className='text-xs text-red-600 underline'
+                    aria-label='Remove item'
+                    className='mb-1 mr-1'
                   >
-                    Remove
+                    <Trash2 className='size-4' />
                   </button>
                 </div>
               </div>
