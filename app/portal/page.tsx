@@ -2,6 +2,58 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import {
+  ArrowUpRight,
+  LayoutGrid,
+  Menu as MenuIconLucide,
+  Printer,
+  QrCode,
+  Trash2,
+  X,
+} from "lucide-react";
+
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
+import { Separator } from "@/components/ui/separator";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+} from "@/components/ui/breadcrumb";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarHeader,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarTrigger,
+  sidebarMenuButtonVariants,
+} from "@/components/ui/sidebar";
 
 type OrderStatus = "received" | "preparing" | "ready" | "served";
 type TableStatus = "empty" | "occupied" | "bill";
@@ -16,7 +68,7 @@ type Order = {
   time: string;
 };
 
-type Table = { id: number; status: TableStatus; total: number; elapsed: string };
+type TableRec = { id: number; status: TableStatus; total: number; elapsed: string };
 
 type MenuItem = {
   id: string;
@@ -58,7 +110,7 @@ const INITIAL_ORDERS: Order[] = [
   { id: "A200", table: 5, items: [{ name: "Pad See Ew", qty: 1 }], total: 119, status: "served", time: "25 min ago" },
 ];
 
-const INITIAL_TABLES: Table[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((id) => {
+const INITIAL_TABLES: TableRec[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((id) => {
   if ([5, 3, 8, 1, 10, 6].includes(id)) {
     return { id, status: "occupied" as const, total: 200 + id * 20, elapsed: `${5 + id} min` };
   }
@@ -94,58 +146,26 @@ function categoryName(list: Category[], id: string) {
   return list.find((c) => c.id === id)?.name ?? id;
 }
 
-function statusPillStyle(status: OrderStatus): React.CSSProperties {
-  const map: Record<OrderStatus, { bg: string; color: string }> = {
-    received: { bg: "#f4f4f5", color: "#3f3f46" },
-    preparing: { bg: "#fef3c7", color: "#92400e" },
-    ready: { bg: "#dcfce7", color: "#15803d" },
-    served: { bg: "#f4f4f5", color: "#a1a1aa" },
+function statusBadgeClass(status: OrderStatus) {
+  const map: Record<OrderStatus, string> = {
+    received: "bg-muted text-foreground/70",
+    preparing: "bg-amber-100 text-amber-800",
+    ready: "bg-green-100 text-green-700",
+    served: "bg-muted text-muted-foreground",
   };
-  const c = map[status];
-  return {
-    background: c.bg,
-    color: c.color,
-    fontSize: 12,
-    fontWeight: 700,
-    borderRadius: 999,
-    padding: "4px 10px",
-    textTransform: "capitalize",
-  };
+  return map[status];
 }
 
-const OverviewIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="3" width="7" height="9"></rect>
-    <rect x="14" y="3" width="7" height="5"></rect>
-    <rect x="14" y="12" width="7" height="9"></rect>
-    <rect x="3" y="16" width="7" height="5"></rect>
-  </svg>
-);
-const MenuIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-  </svg>
-);
-const QrIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="3" width="7" height="7"></rect>
-    <rect x="14" y="3" width="7" height="7"></rect>
-    <rect x="3" y="14" width="7" height="7"></rect>
-    <path d="M14 14h3v3h-3zM14 20h1M20 14v1M20 17v3h-3"></path>
-  </svg>
-);
-
-const NAV_DEFS: { id: View; label: string; Icon: () => React.JSX.Element }[] = [
-  { id: "overview", label: "ภาพรวม", Icon: OverviewIcon },
-  { id: "menu", label: "เมนู", Icon: MenuIcon },
-  { id: "qr", label: "QR โต๊ะ", Icon: QrIcon },
+const NAV_DEFS: { id: View; label: string; Icon: typeof LayoutGrid }[] = [
+  { id: "overview", label: "ภาพรวม", Icon: LayoutGrid },
+  { id: "menu", label: "เมนู", Icon: MenuIconLucide },
+  { id: "qr", label: "QR โต๊ะ", Icon: QrCode },
 ];
 
 export default function Portal() {
   const [view, setView] = useState<View>("overview");
   const [orders] = useState<Order[]>(INITIAL_ORDERS);
-  const [tables, setTables] = useState<Table[]>(INITIAL_TABLES);
+  const [tables, setTables] = useState<TableRec[]>(INITIAL_TABLES);
   const [menuItems, setMenuItems] = useState<MenuItem[]>(INITIAL_MENU);
   const [categories, setCategories] = useState<Category[]>(CATEGORIES);
 
@@ -244,370 +264,312 @@ export default function Portal() {
     { label: "สั่งกลับบ้าน", url: "baanbaankitchen.co.th/takeaway", removable: false, onRemove: () => {} },
   ];
 
+  const viewTitles: Record<View, string> = {
+    overview: "ภาพรวม",
+    menu: "จัดการเมนู",
+    qr: "QR โต๊ะ",
+  };
+
   return (
-    <div style={{ fontFamily: "'Inter', 'Noto Sans Thai', sans-serif", background: "#fafafa", minHeight: "100vh", color: "#09090b", display: "flex" }}>
-      {/* Sidebar */}
-      <div style={{ width: 236, flexShrink: 0, background: "#ffffff", borderRight: "1px solid #e4e4e7", display: "flex", flexDirection: "column", minHeight: "100vh", position: "sticky", top: 0 }}>
-        <div style={{ padding: "22px 20px", borderBottom: "1px solid #e4e4e7" }}>
-          <div style={{ fontWeight: 800, fontSize: 16 }}>Baan Baan Kitchen</div>
-          <div style={{ fontSize: 12, color: "#71717a", marginTop: 2 }}>พอร์ทัลผู้จัดการ</div>
-        </div>
+    <SidebarProvider>
+      <Sidebar>
+        <SidebarHeader className="p-3">
+          <div className="px-1.5 py-1">
+            <div className="text-base font-extrabold">Baan Baan Kitchen</div>
+            <div className="mt-0.5 text-xs text-muted-foreground">พอร์ทัลผู้จัดการ</div>
+          </div>
+        </SidebarHeader>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarMenu>
+              {NAV_DEFS.map((nav) => (
+                <SidebarMenuItem key={nav.id}>
+                  <SidebarMenuButton
+                    isActive={nav.id === view}
+                    tooltip={nav.label}
+                    onClick={() => setView(nav.id)}
+                  >
+                    <nav.Icon />
+                    <span>{nav.label}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroup>
+        </SidebarContent>
+        <SidebarFooter>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <Link href="/scan" className={sidebarMenuButtonVariants()}>
+                <span>ดูแอปลูกค้า</span>
+                <ArrowUpRight className="ml-auto size-3.5 text-muted-foreground" />
+              </Link>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarFooter>
+      </Sidebar>
 
-        <div style={{ padding: "14px 12px", display: "flex", flexDirection: "column", gap: 2, flex: 1 }}>
-          {NAV_DEFS.map((nav) => {
-            const active = nav.id === view;
-            return (
-              <button
-                key={nav.id}
-                onClick={() => setView(nav.id)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  width: "100%",
-                  border: "none",
-                  background: active ? "#f4f4f5" : "transparent",
-                  color: active ? "#09090b" : "#52525b",
-                  borderRadius: 8,
-                  padding: "10px 12px",
-                  fontSize: 14,
-                  fontWeight: active ? 700 : 500,
-                  cursor: "pointer",
-                  textAlign: "left",
-                }}
-              >
-                <span style={{ display: "flex", color: active ? "#09090b" : "#a1a1aa" }}>
-                  <nav.Icon />
-                </span>
-                {nav.label}
-              </button>
-            );
-          })}
-        </div>
+      <SidebarInset>
+        <header className="sticky top-0 z-20 flex h-14 shrink-0 items-center gap-2 border-b border-border bg-background px-4">
+          <SidebarTrigger />
+          <Separator orientation="vertical" className="h-4" />
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbPage>{viewTitles[view]}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </header>
 
-        <div style={{ padding: 16, borderTop: "1px solid #e4e4e7", display: "flex", flexDirection: "column", gap: 8 }}>
-          <Link
-            href="/scan"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              fontSize: 13,
-              fontWeight: 600,
-              textDecoration: "none",
-              color: "#09090b",
-              padding: "10px 12px",
-              borderRadius: 8,
-              background: "#f4f4f5",
-            }}
-          >
-            ดูแอปลูกค้า
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#71717a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: "auto" }}>
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-              <polyline points="15 3 21 3 21 9"></polyline>
-              <line x1="10" y1="14" x2="21" y2="3"></line>
-            </svg>
-          </Link>
-        </div>
-      </div>
-
-      {/* Main */}
-      <div style={{ flex: 1, minWidth: 0 }}>
         {view === "overview" && (
-          <div style={{ padding: "28px 32px 60px" }}>
-            <div style={{ fontSize: 22, fontWeight: 800, marginBottom: 2 }}>ภาพรวม</div>
-            <div style={{ fontSize: 14, color: "#71717a", marginBottom: 24 }}>สรุปผลการดำเนินงานวันนี้</div>
+          <div className="px-8 pt-7 pb-15">
+            <div className="mb-0.5 text-[22px] font-extrabold">ภาพรวม</div>
+            <div className="mb-6 text-sm text-muted-foreground">สรุปผลการดำเนินงานวันนี้</div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px,1fr))", gap: 16, marginBottom: 28 }}>
+            <div className="mb-7 grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
               {statCards.map((stat) => (
-                <div key={stat.label} style={{ background: "#ffffff", border: "1px solid #e4e4e7", borderRadius: 12, padding: "18px 20px" }}>
-                  <div style={{ fontSize: 13, color: "#71717a", fontWeight: 600 }}>{stat.label}</div>
-                  <div style={{ fontSize: 26, fontWeight: 800, marginTop: 8 }}>{stat.value}</div>
-                </div>
+                <Card key={stat.label} className="gap-2 px-5 py-4.5">
+                  <div className="text-[13px] font-semibold text-muted-foreground">{stat.label}</div>
+                  <div className="text-[26px] font-extrabold">{stat.value}</div>
+                </Card>
               ))}
             </div>
 
-            <div style={{ background: "#ffffff", border: "1px solid #e4e4e7", borderRadius: 12, padding: "20px 24px", marginBottom: 28 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 18 }}>ยอดขายสัปดาห์นี้</div>
-              <div style={{ display: "flex", alignItems: "flex-end", gap: 14, height: 140 }}>
+            <Card className="mb-7 px-6 py-5">
+              <div className="mb-4.5 text-sm font-bold">ยอดขายสัปดาห์นี้</div>
+              <div className="flex h-35 items-end gap-3.5">
                 {WEEK_SALES.map((bar, idx) => {
                   const isToday = idx === WEEK_SALES.length - 1;
                   return (
-                    <div key={bar.day} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 8, height: "100%", justifyContent: "flex-end" }}>
+                    <div key={bar.day} className="flex h-full flex-1 flex-col items-center justify-end gap-2">
                       <div
-                        style={{
-                          width: "100%",
-                          maxWidth: 36,
-                          height: `${Math.round((bar.sales / maxSales) * 100)}%`,
-                          background: isToday ? "#18181b" : "#e4e4e7",
-                          borderRadius: "6px 6px 0 0",
-                        }}
+                        className={cn("w-full max-w-9 rounded-t-md", isToday ? "bg-primary" : "bg-border")}
+                        style={{ height: `${Math.round((bar.sales / maxSales) * 100)}%` }}
                       />
-                      <div style={{ fontSize: 11, color: "#71717a", fontWeight: isToday ? 700 : 400 }}>{bar.day}</div>
+                      <div className={cn("text-[11px]", isToday ? "font-bold text-foreground" : "text-muted-foreground")}>{bar.day}</div>
                     </div>
                   );
                 })}
               </div>
-            </div>
+            </Card>
 
-            <div style={{ background: "#ffffff", border: "1px solid #e4e4e7", borderRadius: 12, overflow: "hidden" }}>
-              <div style={{ padding: "16px 20px", borderBottom: "1px solid #e4e4e7", fontSize: 14, fontWeight: 700 }}>ออเดอร์ล่าสุด</div>
-              {recentOrders.map((o) => (
-                <div key={o.id} style={{ display: "flex", alignItems: "center", gap: 16, padding: "14px 20px", borderBottom: "1px solid #f4f4f5", fontSize: 14 }}>
-                  <div style={{ fontWeight: 700, width: 56 }}>{o.id}</div>
-                  <div style={{ color: "#71717a", width: 70 }}>โต๊ะ {o.table}</div>
-                  <div style={{ flex: 1, color: "#71717a" }}>{o.items.map((it) => `${it.qty}× ${it.name}`).join(", ")}</div>
-                  <div style={{ fontWeight: 700, width: 70, textAlign: "right" }}>฿{o.total}</div>
-                  <div style={{ width: 100, textAlign: "right" }}>
-                    <span style={statusPillStyle(o.status)}>{STATUS_LABELS[o.status]}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <Card className="gap-0 overflow-hidden py-0">
+              <div className="border-b border-border px-5 py-4 text-sm font-bold">ออเดอร์ล่าสุด</div>
+              <Table>
+                <TableBody>
+                  {recentOrders.map((o) => (
+                    <TableRow key={o.id} className="hover:bg-transparent">
+                      <TableCell className="w-14 py-3.5 pl-5 font-bold">{o.id}</TableCell>
+                      <TableCell className="w-18 text-muted-foreground">โต๊ะ {o.table}</TableCell>
+                      <TableCell className="text-muted-foreground">{o.items.map((it) => `${it.qty}× ${it.name}`).join(", ")}</TableCell>
+                      <TableCell className="text-right font-bold">฿{o.total}</TableCell>
+                      <TableCell className="pr-5 text-right">
+                        <Badge className={cn("h-auto rounded-full px-2.5 py-1 font-bold", statusBadgeClass(o.status))}>
+                          {STATUS_LABELS[o.status]}
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Card>
           </div>
         )}
 
         {view === "menu" && (
-          <div style={{ padding: "28px 32px 60px" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
+          <div className="px-8 pt-7 pb-15">
+            <div className="mb-6 flex items-center justify-between">
               <div>
-                <div style={{ fontSize: 22, fontWeight: 800, marginBottom: 2 }}>จัดการเมนู</div>
-                <div style={{ fontSize: 14, color: "#71717a" }}>
+                <div className="mb-0.5 text-[22px] font-extrabold">จัดการเมนู</div>
+                <div className="text-sm text-muted-foreground">
                   {menuItems.length} รายการ · เปิด/ปิดสถานะ แก้ไขราคา หรือเพิ่มเมนูใหม่
                 </div>
               </div>
-              <div style={{ display: "flex", gap: 8 }}>
-                <button
-                  onClick={() => setShowAddCategory((v) => !v)}
-                  style={{ border: "1px solid #e4e4e7", background: "white", color: "#09090b", borderRadius: 8, padding: "10px 18px", fontSize: 13, fontWeight: 700, cursor: "pointer" }}
-                >
+              <div className="flex gap-2">
+                <Button variant="outline" onClick={() => setShowAddCategory((v) => !v)}>
                   จัดการหมวดหมู่
-                </button>
-                <button
-                  onClick={() => setShowAddItem((v) => !v)}
-                  style={{ border: "none", background: "#18181b", color: "white", borderRadius: 8, padding: "10px 18px", fontSize: 13, fontWeight: 700, cursor: "pointer" }}
-                >
-                  + เพิ่มเมนู
-                </button>
+                </Button>
+                <Button onClick={() => setShowAddItem((v) => !v)}>+ เพิ่มเมนู</Button>
               </div>
             </div>
 
             {showAddCategory && (
-              <div style={{ background: "#ffffff", border: "1px solid #e4e4e7", borderRadius: 12, padding: "18px 20px", marginBottom: 20 }}>
-                <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 12 }}>หมวดหมู่ทั้งหมด</div>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
+              <Card className="mb-5 px-5 py-4.5">
+                <div className="mb-3 text-[13px] font-bold">หมวดหมู่ทั้งหมด</div>
+                <div className="mb-4 flex flex-wrap gap-2">
                   {categories.map((c) => {
                     const count = categoryCounts[c.id] ?? 0;
                     const canRemove = !count;
                     return (
-                      <div key={c.id} style={{ display: "flex", alignItems: "center", gap: 6, background: "#f4f4f5", borderRadius: 999, padding: "6px 8px 6px 14px", fontSize: 13, fontWeight: 600 }}>
+                      <Badge key={c.id} variant="secondary" className="h-auto gap-1.5 rounded-full py-1.5 pr-1.5 pl-3.5 text-[13px] font-semibold">
                         {c.name}
-                        <span style={{ color: "#a1a1aa", fontWeight: 500 }}>({count})</span>
+                        <span className="font-medium text-muted-foreground">({count})</span>
                         {canRemove && (
                           <button
                             onClick={() => removeCategory(c.id)}
-                            style={{ width: 18, height: 18, borderRadius: "50%", border: "none", background: "#e4e4e7", color: "#52525b", cursor: "pointer", fontSize: 11, lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center" }}
+                            className="flex size-4.5 items-center justify-center rounded-full bg-border text-[11px] text-foreground/70"
                           >
-                            ✕
+                            <X className="size-2.5" />
                           </button>
                         )}
-                      </div>
+                      </Badge>
                     );
                   })}
                 </div>
-                <div style={{ display: "flex", gap: 10 }}>
-                  <input
+                <div className="flex gap-2.5">
+                  <Input
                     type="text"
                     placeholder="ชื่อหมวดหมู่ใหม่"
                     value={newCategoryName}
                     onChange={(e) => setNewCategoryName(e.target.value)}
-                    style={{ flex: 1, maxWidth: 240, border: "1px solid #e4e4e7", borderRadius: 8, padding: "9px 12px", fontSize: 14, fontFamily: "inherit" }}
+                    className="h-auto max-w-60 py-2.25"
                   />
-                  <button
-                    onClick={addCategory}
-                    style={{ border: "none", background: "#18181b", color: "white", borderRadius: 8, padding: "9px 18px", fontSize: 13, fontWeight: 700, cursor: "pointer" }}
-                  >
-                    + เพิ่มหมวดหมู่
-                  </button>
+                  <Button onClick={addCategory}>+ เพิ่มหมวดหมู่</Button>
                 </div>
-              </div>
+              </Card>
             )}
 
             {showAddItem && (
-              <div style={{ background: "#ffffff", border: "1px solid #e4e4e7", borderRadius: 12, padding: "18px 20px", marginBottom: 20, display: "flex", gap: 12, flexWrap: "wrap", alignItems: "flex-end" }}>
-                <div style={{ flex: 1, minWidth: 160 }}>
-                  <div style={{ fontSize: 12, fontWeight: 600, color: "#71717a", marginBottom: 6 }}>ชื่อเมนู</div>
-                  <input
+              <Card className="mb-5 flex-row flex-wrap items-end gap-3 px-5 py-4.5">
+                <div className="min-w-40 flex-1">
+                  <div className="mb-1.5 text-xs font-semibold text-muted-foreground">ชื่อเมนู</div>
+                  <Input
                     type="text"
                     placeholder="เช่น แกงเขียวหวาน"
                     value={newItemName}
                     onChange={(e) => setNewItemName(e.target.value)}
-                    style={{ width: "100%", border: "1px solid #e4e4e7", borderRadius: 8, padding: "9px 12px", fontSize: 14, fontFamily: "inherit" }}
+                    className="h-auto py-2.25"
                   />
                 </div>
-                <div style={{ width: 130 }}>
-                  <div style={{ fontSize: 12, fontWeight: 600, color: "#71717a", marginBottom: 6 }}>หมวดหมู่</div>
-                  <select
+                <div className="w-32.5">
+                  <div className="mb-1.5 text-xs font-semibold text-muted-foreground">หมวดหมู่</div>
+                  <Select
                     value={newItemCategory}
-                    onChange={(e) => setNewItemCategory(e.target.value)}
-                    style={{ width: "100%", border: "1px solid #e4e4e7", borderRadius: 8, padding: "9px 8px", fontSize: 14, fontFamily: "inherit", background: "white" }}
+                    onValueChange={(value) => value && setNewItemCategory(value)}
                   >
-                    {categories.map((c) => (
-                      <option key={c.id} value={c.id}>
-                        {c.name}
-                      </option>
-                    ))}
-                  </select>
+                    <SelectTrigger className="h-auto w-full py-2.25">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map((c) => (
+                        <SelectItem key={c.id} value={c.id}>
+                          {c.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
-                <div style={{ width: 110 }}>
-                  <div style={{ fontSize: 12, fontWeight: 600, color: "#71717a", marginBottom: 6 }}>ราคา (฿)</div>
-                  <input
+                <div className="w-27.5">
+                  <div className="mb-1.5 text-xs font-semibold text-muted-foreground">ราคา (฿)</div>
+                  <Input
                     type="number"
                     placeholder="0"
                     value={newItemPrice}
                     onChange={(e) => setNewItemPrice(e.target.value)}
-                    style={{ width: "100%", border: "1px solid #e4e4e7", borderRadius: 8, padding: "9px 12px", fontSize: 14, fontFamily: "inherit" }}
+                    className="h-auto py-2.25"
                   />
                 </div>
-                <button
-                  onClick={addMenuItem}
-                  style={{ border: "none", background: "#18181b", color: "white", borderRadius: 8, padding: "10px 18px", fontSize: 13, fontWeight: 700, cursor: "pointer" }}
-                >
-                  บันทึก
-                </button>
-              </div>
+                <Button onClick={addMenuItem}>บันทึก</Button>
+              </Card>
             )}
 
-            <div style={{ background: "#ffffff", border: "1px solid #e4e4e7", borderRadius: 12, overflow: "hidden" }}>
-              {menuItems.map((m) => (
-                <div key={m.id} style={{ display: "flex", alignItems: "center", gap: 16, padding: "14px 20px", borderBottom: "1px solid #f4f4f5" }}>
-                  <div
-                    style={{
-                      width: 52,
-                      height: 52,
-                      borderRadius: 8,
-                      background: "repeating-linear-gradient(45deg, #f4f4f5, #f4f4f5 8px, #ececed 8px, #ececed 16px)",
-                      flexShrink: 0,
-                    }}
-                  />
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontWeight: 600, fontSize: 14 }}>{m.name}</div>
-                    <div style={{ fontSize: 12, color: "#71717a", textTransform: "capitalize" }}>{categoryName(categories, m.category)}</div>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                    <span style={{ fontSize: 13, color: "#71717a" }}>฿</span>
-                    <input
-                      type="number"
-                      value={m.price}
-                      onChange={(e) => setItemPrice(m.id, parseInt(e.target.value, 10) || 0)}
-                      style={{ width: 64, border: "1px solid #e4e4e7", borderRadius: 6, padding: "6px 8px", fontSize: 13, fontFamily: "inherit" }}
-                    />
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, width: 120 }}>
-                    <button
-                      onClick={() => toggleItemAvailable(m.id)}
-                      style={{
-                        width: 38,
-                        height: 22,
-                        borderRadius: 999,
-                        border: "none",
-                        background: m.available ? "#18181b" : "#e4e4e7",
-                        cursor: "pointer",
-                        position: "relative",
-                        padding: 0,
-                        flexShrink: 0,
-                      }}
-                    >
-                      <span
-                        style={{
-                          position: "absolute",
-                          top: 2,
-                          left: m.available ? 18 : 2,
-                          width: 18,
-                          height: 18,
-                          borderRadius: "50%",
-                          background: "#ffffff",
-                          boxShadow: "0 1px 2px rgba(0,0,0,0.25)",
-                          transition: "left 0.15s ease",
-                        }}
-                      />
-                    </button>
-                    <span style={{ fontSize: 12, fontWeight: 600, color: m.available ? "#15803d" : "#a1a1aa" }}>
-                      {m.available ? "พร้อมขาย" : "หมด"}
-                    </span>
-                  </div>
-                  <button onClick={() => deleteItem(m.id)} style={{ border: "none", background: "transparent", color: "#a1a1aa", cursor: "pointer", padding: 6, display: "flex" }}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="3 6 5 6 21 6"></polyline>
-                      <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
-                      <path d="M10 11v6M14 11v6"></path>
-                    </svg>
-                  </button>
-                </div>
-              ))}
-            </div>
+            <Card className="gap-0 overflow-hidden py-0">
+              <Table>
+                <TableHeader className="sr-only">
+                  <TableRow>
+                    <TableHead>Image</TableHead>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Price</TableHead>
+                    <TableHead>Available</TableHead>
+                    <TableHead>Delete</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {menuItems.map((m) => (
+                    <TableRow key={m.id} className="hover:bg-transparent">
+                      <TableCell className="w-16 py-3.5 pl-5">
+                        <div className="size-13 rounded-lg bg-[repeating-linear-gradient(45deg,var(--muted),var(--muted)_8px,var(--border)_8px,var(--border)_16px)]" />
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-sm font-semibold">{m.name}</div>
+                        <div className="text-xs text-muted-foreground capitalize">{categoryName(categories, m.category)}</div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-1">
+                          <span className="text-[13px] text-muted-foreground">฿</span>
+                          <Input
+                            type="number"
+                            value={m.price}
+                            onChange={(e) => setItemPrice(m.id, parseInt(e.target.value, 10) || 0)}
+                            className="h-auto w-16 py-1.5 text-[13px]"
+                          />
+                        </div>
+                      </TableCell>
+                      <TableCell className="w-30">
+                        <div className="flex items-center gap-2">
+                          <Switch checked={m.available} onCheckedChange={() => toggleItemAvailable(m.id)} />
+                          <span className={cn("text-xs font-semibold", m.available ? "text-green-700" : "text-muted-foreground")}>
+                            {m.available ? "พร้อมขาย" : "หมด"}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="w-12 pr-5">
+                        <Button variant="ghost" size="icon-sm" onClick={() => deleteItem(m.id)}>
+                          <Trash2 className="size-4 text-muted-foreground" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Card>
           </div>
         )}
 
         {view === "qr" && (
-          <div style={{ padding: "28px 32px 60px" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24, flexWrap: "wrap", gap: 12 }}>
+          <div className="px-8 pt-7 pb-15">
+            <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
               <div>
-                <div style={{ fontSize: 22, fontWeight: 800, marginBottom: 2 }}>QR โต๊ะ</div>
-                <div style={{ fontSize: 14, color: "#71717a" }}>{tables.length} โต๊ะ · พิมพ์และวางไว้ที่โต๊ะ หรือใช้สำหรับสั่งกลับบ้าน</div>
+                <div className="mb-0.5 text-[22px] font-extrabold">QR โต๊ะ</div>
+                <div className="text-sm text-muted-foreground">{tables.length} โต๊ะ · พิมพ์และวางไว้ที่โต๊ะ หรือใช้สำหรับสั่งกลับบ้าน</div>
               </div>
-              <div style={{ display: "flex", gap: 8 }}>
-                <button
-                  onClick={addTable}
-                  style={{ border: "1px solid #e4e4e7", background: "white", color: "#09090b", borderRadius: 8, padding: "10px 18px", fontSize: 13, fontWeight: 700, cursor: "pointer" }}
-                >
+              <div className="flex gap-2">
+                <Button variant="outline" onClick={addTable}>
                   + เพิ่มโต๊ะ
-                </button>
-                <button
-                  onClick={() => window.print()}
-                  style={{ border: "none", background: "#18181b", color: "white", borderRadius: 8, padding: "10px 18px", fontSize: 13, fontWeight: 700, cursor: "pointer" }}
-                >
+                </Button>
+                <Button onClick={() => window.print()}>
+                  <Printer className="size-4" />
                   พิมพ์ทั้งหมด
-                </button>
+                </Button>
               </div>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px,1fr))", gap: 16 }}>
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4">
               {qrCodes.map((q) => (
-                <div key={q.label} style={{ background: "#ffffff", border: "1px solid #e4e4e7", borderRadius: 12, padding: 18, textAlign: "center", position: "relative" }}>
+                <Card key={q.label} className="relative gap-0 p-4.5 text-center">
                   {q.removable && (
-                    <button
+                    <Button
+                      variant="outline"
+                      size="icon-sm"
+                      className="absolute top-2.5 right-2.5 text-muted-foreground"
                       onClick={q.onRemove}
-                      style={{ position: "absolute", top: 10, right: 10, width: 24, height: 24, borderRadius: 6, border: "1px solid #e4e4e7", background: "white", color: "#a1a1aa", cursor: "pointer", fontSize: 13, lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center" }}
                     >
-                      ✕
-                    </button>
+                      <X className="size-3.5" />
+                    </Button>
                   )}
-                  <div style={{ fontSize: 14, fontWeight: 700 }}>{q.label}</div>
-                  <div
-                    style={{
-                      width: 150,
-                      height: 150,
-                      margin: "14px auto 0",
-                      background: "repeating-conic-gradient(#18181b 0% 25%, #ffffff 0% 50%) 0 0/20px 20px",
-                      border: "6px solid white",
-                      boxShadow: "0 0 0 1px #e4e4e7",
-                      borderRadius: 8,
-                    }}
-                  />
-                  <div style={{ fontSize: 11, color: "#a1a1aa", marginTop: 12, wordBreak: "break-all" }}>{q.url}</div>
-                  <button
-                    onClick={() => window.print()}
-                    style={{ marginTop: 12, width: "100%", border: "1px solid #e4e4e7", background: "white", borderRadius: 8, padding: 8, fontSize: 12, fontWeight: 600, cursor: "pointer" }}
-                  >
+                  <div className="text-sm font-bold">{q.label}</div>
+                  <div className="mx-auto mt-3.5 size-37.5 rounded-lg border-6 border-background bg-[repeating-conic-gradient(var(--primary)_0%_25%,var(--background)_0%_50%)] bg-size-[20px_20px] shadow-[0_0_0_1px_var(--border)]" />
+                  <div className="mt-3 text-[11px] break-all text-muted-foreground">{q.url}</div>
+                  <Button variant="outline" size="sm" className="mt-3 w-full" onClick={() => window.print()}>
                     ดาวน์โหลด
-                  </button>
-                </div>
+                  </Button>
+                </Card>
               ))}
             </div>
           </div>
         )}
-      </div>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
