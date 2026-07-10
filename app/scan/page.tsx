@@ -481,6 +481,7 @@ export default function ScanToOrder() {
   const [screen, setScreen] = useState<Screen>('landing')
   const [showCart, setShowCart] = useState(false)
   const [orderType, setOrderType] = useState<OrderType>('dine-in')
+  const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [activeCategory, setActiveCategory] = useState('noodles')
   const [cart, setCart] = useState<CartLine[]>([])
@@ -616,22 +617,12 @@ export default function ScanToOrder() {
   return (
     <div className='relative min-h-screen bg-muted/40 text-foreground'>
       {screen === 'landing' && (
-        <div className='flex min-h-screen flex-col items-center justify-center gap-4.5 px-5 py-8 text-center'>
-          <div className='flex flex-col items-center gap-3.5'>
-            <div>
-              <div className='text-[38px] leading-[1.15] font-extrabold tracking-tight'>
-                Baan Baan Kitchen
-              </div>
-              {bilingual && (
-                <div className="mt-1.5 font-['Noto_Sans_Thai',sans-serif] text-[22px] text-muted-foreground">
-                  บ้าน บ้าน คิทเช่น
-                </div>
-              )}
-            </div>
-            <div className='max-w-90 text-xl leading-snug text-foreground/70'>
+        <div className='flex min-h-screen flex-col items-center justify-center gap-4 px-4 py-6 text-center sm:gap-5 sm:px-5 sm:py-8'>
+          <div className='flex flex-col items-center gap-3 sm:gap-4'>
+            <div className='max-w-80 text-3xl leading-snug font-light tracking-wide text-foreground/80 sm:max-w-100 sm:text-4xl'>
               Scan · Order · Enjoy
               {bilingual && (
-                <div className="mt-0.5 font-['Noto_Sans_Thai',sans-serif] text-[21px]">
+                <div className="mt-0.5 font-['Noto_Sans_Thai',sans-serif] text-3xl font-light sm:text-[36px]">
                   สแกน สั่ง อิ่มอร่อย
                 </div>
               )}
@@ -639,15 +630,34 @@ export default function ScanToOrder() {
 
             <Badge
               variant='secondary'
-              className='mt-1 h-auto gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-semibold'
+              className='h-auto gap-1 rounded-full px-2.5 text-xs font-semibold sm:px-3 sm:text-[13px]'
             >
-              <Check className='size-3.5 text-green-600' strokeWidth={3} />
+              <Check className='size-3 text-green-600' strokeWidth={3} />
               Table 12 · Ready to order
             </Badge>
           </div>
 
-          <div className='mt-2.5 w-full max-w-85 text-left'>
-            <div className='mb-2.5 text-base font-semibold'>
+          <div className='mt-1 w-full max-w-85 text-left sm:mt-2 sm:max-w-90'>
+            <div className='mb-2 text-sm font-semibold sm:mb-2.5 sm:text-base'>
+              Name
+              {bilingual && (
+                <span className="font-['Noto_Sans_Thai',sans-serif] font-normal text-muted-foreground">
+                  {' '}
+                  · ชื่อ
+                </span>
+              )}
+            </div>
+            <Input
+              type='text'
+              placeholder='Your name'
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className='h-auto rounded-xl border-[1.5px] px-3 py-2.5 text-sm sm:px-4.5 sm:py-4.5 sm:text-lg'
+            />
+          </div>
+
+          <div className='w-full max-w-85 text-left sm:max-w-90'>
+            <div className='mb-2 text-sm font-semibold sm:mb-2.5 sm:text-base'>
               Mobile Number
               {bilingual && (
                 <span className="font-['Noto_Sans_Thai',sans-serif] font-normal text-muted-foreground">
@@ -661,8 +671,8 @@ export default function ScanToOrder() {
               inputMode='tel'
               placeholder='08X-XXX-XXXX'
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className='h-auto rounded-xl border-[1.5px] px-4.5 py-4.5 text-lg'
+              onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
+              className='h-auto rounded-xl border-[1.5px] px-3 py-2.5 text-sm sm:px-4.5 sm:py-4.5 sm:text-lg'
             />
           </div>
 
@@ -670,7 +680,7 @@ export default function ScanToOrder() {
             size='lg'
             onClick={goToMenu}
             disabled={phoneInvalid}
-            className='mt-2 h-auto w-full max-w-85 rounded-xl py-5 text-lg font-bold shadow-sm'
+            className='mt-1 h-auto w-full max-w-85 rounded-xl py-3 text-sm font-bold shadow-sm sm:max-w-90 sm:py-5 sm:text-lg'
           >
             View Menu
             {bilingual && (
@@ -921,33 +931,10 @@ export default function ScanToOrder() {
           </div>
 
           <div className='flex flex-col gap-3 border-t border-border p-4.5'>
-            {/* <div className="flex gap-1 rounded-lg bg-muted p-1">
-              <Button
-                variant="ghost"
-                size="sm"
-                className={cn("flex-1", orderType === "dine-in" && "bg-background shadow-sm")}
-                onClick={() => setOrderType("dine-in")}
-              >
-                Dine-in
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className={cn("flex-1", orderType === "takeaway" && "bg-background shadow-sm")}
-                onClick={() => setOrderType("takeaway")}
-              >
-                Takeaway
-              </Button>
-            </div> */}
-
             <div className='flex justify-between text-[13px] text-muted-foreground'>
               <div>Subtotal</div>
               <div>฿{subtotal}</div>
             </div>
-            {/* <div className="flex justify-between text-[13px] text-muted-foreground">
-              <div>VAT (7%)</div>
-              <div>฿{vat}</div>
-            </div> */}
             <div className='flex justify-between text-base font-bold'>
               <div>Total</div>
               <div>฿{total}</div>
