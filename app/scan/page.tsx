@@ -33,6 +33,7 @@ type Category = { id: string; name: string; nameTh: string }
 
 type MenuDef = {
   id: string
+  image: string
   category: string
   name: string
   nameTh: string
@@ -45,6 +46,7 @@ type CartLine = {
   key: string
   id: string
   name: string
+  nameTh: string
   basePrice: number
   qty: number
 }
@@ -62,6 +64,7 @@ const CATEGORIES: Category[] = [
 const MENU: MenuDef[] = [
   {
     id: 'spring_roll',
+    image: 'https://picsum.photos/400/300',
     category: 'appetizers',
     name: 'Fresh Spring Rolls',
     nameTh: 'ปอเปี๊ยะสด',
@@ -71,6 +74,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'wonton',
+    image: 'https://picsum.photos/400/300',
     category: 'appetizers',
     name: 'Fried Wontons',
     nameTh: 'เกี๊ยวทอด',
@@ -80,6 +84,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'somtum',
+    image: 'https://picsum.photos/400/300',
     category: 'appetizers',
     name: 'Papaya Salad',
     nameTh: 'ส้มตำ',
@@ -89,6 +94,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'padthai',
+    image: 'https://picsum.photos/400/300',
     category: 'noodles',
     name: 'Pad Thai',
     nameTh: 'ผัดไทย',
@@ -98,6 +104,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'padseeew',
+    image: 'https://picsum.photos/400/300',
     category: 'noodles',
     name: 'Pad See Ew',
     nameTh: 'ผัดซีอิ๊ว',
@@ -107,6 +114,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'boatnoodle',
+    image: 'https://picsum.photos/400/300',
     category: 'noodles',
     name: 'Boat Noodles',
     nameTh: 'ก๋วยเตี๋ยวเรือ',
@@ -116,6 +124,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'khaopad',
+    image: 'https://picsum.photos/400/300',
     category: 'rice',
     name: 'Thai Fried Rice',
     nameTh: 'ข้าวผัด',
@@ -125,6 +134,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'khaomangai',
+    image: 'https://picsum.photos/400/300',
     category: 'rice',
     name: 'Khao Man Gai',
     nameTh: 'ข้าวมันไก่',
@@ -134,6 +144,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'basilrice',
+    image: 'https://picsum.photos/400/300',
     category: 'rice',
     name: 'Basil Fried Rice',
     nameTh: 'ข้าวผัดกะเพรา',
@@ -143,6 +154,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'moopin',
+    image: 'https://picsum.photos/400/300',
     category: 'grilled',
     name: 'Grilled Pork Skewers',
     nameTh: 'หมูปิ้ง',
@@ -152,6 +164,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'satay',
+    image: 'https://picsum.photos/400/300',
     category: 'grilled',
     name: 'Chicken Satay',
     nameTh: 'สะเต๊ะไก่',
@@ -161,6 +174,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'grilledsquid',
+    image: 'https://picsum.photos/400/300',
     category: 'grilled',
     name: 'Grilled Squid',
     nameTh: 'ปลาหมึกย่าง',
@@ -170,6 +184,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'tomyum',
+    image: 'https://picsum.photos/400/300',
     category: 'soups',
     name: 'Tom Yum Goong',
     nameTh: 'ต้มยำกุ้ง',
@@ -179,6 +194,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'tomkha',
+    image: 'https://picsum.photos/400/300',
     category: 'soups',
     name: 'Tom Kha Gai',
     nameTh: 'ต้มข่าไก่',
@@ -188,6 +204,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'thaitea',
+    image: 'https://picsum.photos/400/300',
     category: 'drinks',
     name: 'Thai Iced Tea',
     nameTh: 'ชาไทย',
@@ -197,6 +214,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'limesoda',
+    image: 'https://picsum.photos/400/300',
     category: 'drinks',
     name: 'Fresh Lime Soda',
     nameTh: 'โซดามะนาว',
@@ -206,6 +224,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'coconut',
+    image: 'https://picsum.photos/400/300',
     category: 'drinks',
     name: 'Coconut Water',
     nameTh: 'น้ำมะพร้าว',
@@ -215,6 +234,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'mangosticky',
+    image: 'https://picsum.photos/400/300',
     category: 'desserts',
     name: 'Mango Sticky Rice',
     nameTh: 'ข้าวเหนียวมะม่วง',
@@ -224,6 +244,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'coconuticecream',
+    image: 'https://picsum.photos/400/300',
     category: 'desserts',
     name: 'Coconut Ice Cream',
     nameTh: 'ไอศกรีมกะทิ',
@@ -235,6 +256,7 @@ const MENU: MenuDef[] = [
   // Appetizers
   {
     id: 'fishcake',
+    image: 'https://picsum.photos/400/300',
     category: 'appetizers',
     name: 'Thai Fish Cakes',
     nameTh: 'ทอดมันปลา',
@@ -244,6 +266,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'shrimpcake',
+    image: 'https://picsum.photos/400/300',
     category: 'appetizers',
     name: 'Shrimp Cakes',
     nameTh: 'ทอดมันกุ้ง',
@@ -253,6 +276,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'larbmoo',
+    image: 'https://picsum.photos/400/300',
     category: 'appetizers',
     name: 'Larb Moo',
     nameTh: 'ลาบหมู',
@@ -262,6 +286,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'yumwoonsen',
+    image: 'https://picsum.photos/400/300',
     category: 'appetizers',
     name: 'Glass Noodle Salad',
     nameTh: 'ยำวุ้นเส้น',
@@ -273,6 +298,7 @@ const MENU: MenuDef[] = [
   // Noodles
   {
     id: 'drunkennoodles',
+    image: 'https://picsum.photos/400/300',
     category: 'noodles',
     name: 'Drunken Noodles',
     nameTh: 'ผัดขี้เมา',
@@ -282,6 +308,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'radna',
+    image: 'https://picsum.photos/400/300',
     category: 'noodles',
     name: 'Rad Na',
     nameTh: 'ราดหน้า',
@@ -291,6 +318,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'yentafo',
+    image: 'https://picsum.photos/400/300',
     category: 'noodles',
     name: 'Yen Ta Fo',
     nameTh: 'เย็นตาโฟ',
@@ -300,6 +328,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'suukhothainoodle',
+    image: 'https://picsum.photos/400/300',
     category: 'noodles',
     name: 'Sukhothai Noodles',
     nameTh: 'ก๋วยเตี๋ยวสุโขทัย',
@@ -311,6 +340,7 @@ const MENU: MenuDef[] = [
   // Rice
   {
     id: 'krapaomoo',
+    image: 'https://picsum.photos/400/300',
     category: 'rice',
     name: 'Holy Basil Pork',
     nameTh: 'ผัดกะเพราหมู',
@@ -320,6 +350,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'garlicrice',
+    image: 'https://picsum.photos/400/300',
     category: 'rice',
     name: 'Garlic Pork Rice',
     nameTh: 'ข้าวหมูกระเทียม',
@@ -329,6 +360,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'greenchickencurry',
+    image: 'https://picsum.photos/400/300',
     category: 'rice',
     name: 'Green Curry Chicken',
     nameTh: 'แกงเขียวหวานไก่',
@@ -338,6 +370,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'massamancurry',
+    image: 'https://picsum.photos/400/300',
     category: 'rice',
     name: 'Massaman Beef Curry',
     nameTh: 'แกงมัสมั่นเนื้อ',
@@ -349,6 +382,7 @@ const MENU: MenuDef[] = [
   // Grilled
   {
     id: 'grilledchicken',
+    image: 'https://picsum.photos/400/300',
     category: 'grilled',
     name: 'Thai Grilled Chicken',
     nameTh: 'ไก่ย่าง',
@@ -358,6 +392,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'korib',
+    image: 'https://picsum.photos/400/300',
     category: 'grilled',
     name: 'Grilled Pork Neck',
     nameTh: 'คอหมูย่าง',
@@ -367,6 +402,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'grilledprawns',
+    image: 'https://picsum.photos/400/300',
     category: 'grilled',
     name: 'Grilled River Prawns',
     nameTh: 'กุ้งแม่น้ำเผา',
@@ -378,6 +414,7 @@ const MENU: MenuDef[] = [
   // Soups
   {
     id: 'gaengjued',
+    image: 'https://picsum.photos/400/300',
     category: 'soups',
     name: 'Clear Tofu Soup',
     nameTh: 'แกงจืดเต้าหู้',
@@ -387,6 +424,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'tomsaap',
+    image: 'https://picsum.photos/400/300',
     category: 'soups',
     name: 'Tom Saap Pork Ribs',
     nameTh: 'ต้มแซ่บกระดูกอ่อน',
@@ -396,6 +434,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'kaengsom',
+    image: 'https://picsum.photos/400/300',
     category: 'soups',
     name: 'Sour Curry Soup',
     nameTh: 'แกงส้ม',
@@ -407,6 +446,7 @@ const MENU: MenuDef[] = [
   // Drinks
   {
     id: 'greentea',
+    image: 'https://picsum.photos/400/300',
     category: 'drinks',
     name: 'Thai Green Milk Tea',
     nameTh: 'ชาเขียวนม',
@@ -416,6 +456,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'lemontea',
+    image: 'https://picsum.photos/400/300',
     category: 'drinks',
     name: 'Lemon Iced Tea',
     nameTh: 'ชามะนาว',
@@ -425,6 +466,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'roselle',
+    image: 'https://picsum.photos/400/300',
     category: 'drinks',
     name: 'Roselle Juice',
     nameTh: 'น้ำกระเจี๊ยบ',
@@ -434,6 +476,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'butterflypea',
+    image: 'https://picsum.photos/400/300',
     category: 'drinks',
     name: 'Butterfly Pea Lime',
     nameTh: 'อัญชันมะนาว',
@@ -445,6 +488,7 @@ const MENU: MenuDef[] = [
   // Desserts
   {
     id: 'lodchong',
+    image: 'https://picsum.photos/400/300',
     category: 'desserts',
     name: 'Lod Chong',
     nameTh: 'ลอดช่อง',
@@ -454,6 +498,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'tubtimkrob',
+    image: 'https://picsum.photos/400/300',
     category: 'desserts',
     name: 'Tub Tim Grob',
     nameTh: 'ทับทิมกรอบ',
@@ -463,6 +508,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'bananafritter',
+    image: 'https://picsum.photos/400/300',
     category: 'desserts',
     name: 'Fried Banana',
     nameTh: 'กล้วยทอด',
@@ -472,6 +518,7 @@ const MENU: MenuDef[] = [
   },
   {
     id: 'kanomkrok',
+    image: 'https://picsum.photos/400/300',
     category: 'desserts',
     name: 'Coconut Pancakes',
     nameTh: 'ขนมครก',
@@ -529,6 +576,7 @@ export default function ScanToOrder() {
           key: item.id,
           id: item.id,
           name: item.name,
+          nameTh: item.nameTh,
           basePrice: item.price,
           qty: 1,
         },
@@ -605,8 +653,8 @@ export default function ScanToOrder() {
 
   const cartCount = cart.reduce((sum, l) => sum + l.qty, 0)
   const subtotal = cart.reduce((sum, l) => sum + l.basePrice * l.qty, 0)
-  const vat = Math.round(subtotal * 0.07)
-  const total = subtotal + vat
+  const vat = Math.round(subtotal)
+  const total = subtotal
   const cartIsEmpty = cart.length === 0
 
   const trackingLines = lastCart.map((l) => ({
@@ -764,19 +812,21 @@ export default function ScanToOrder() {
                   key={item.id}
                   className='flex items-stretch gap-3.5 rounded-[10px] border border-border bg-background p-3'
                 >
-                  <div className='flex size-28 shrink-0 items-center justify-center rounded-lg bg-[repeating-linear-gradient(45deg,var(--muted),var(--muted)_10px,var(--border)_10px,var(--border)_20px)] p-1.5 text-center font-mono text-[10px] tracking-wide text-muted-foreground uppercase'>
-                    {item.name} photo
-                  </div>
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className='size-28 shrink-0 rounded-lg object-cover'
+                  />
                   <div className='flex min-w-0 flex-1 flex-col justify-between gap-1'>
                     <div>
                       <div className='flex items-start justify-between gap-2'>
                         <div className='text-[15px] font-semibold'>
-                          {item.name}
+                          {item.nameTh}
                         </div>
                       </div>
                       {bilingual && (
                         <div className="font-['Noto_Sans_Thai',sans-serif] text-xs text-muted-foreground">
-                          {item.nameTh}
+                          {item.name}
                         </div>
                       )}
                       <div className='mt-1 line-clamp-2 text-[13px] leading-snug text-muted-foreground'>
@@ -904,7 +954,7 @@ export default function ScanToOrder() {
                 className='flex gap-3 border-b border-border/60 pb-3.5'
               >
                 <div className='flex-1'>
-                  <div className='text-sm font-semibold'>{line.name}</div>
+                  <div className='text-sm font-semibold'>{line.nameTh}</div>
                   <div className='mt-2 flex items-center gap-2.5'>
                     <Button
                       variant='outline'
