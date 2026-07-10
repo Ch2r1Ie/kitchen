@@ -652,7 +652,7 @@ export default function ScanToOrder() {
               placeholder='Your name'
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className='h-auto rounded-xl border-[1.5px] px-3 py-2.5 text-sm sm:px-4.5 sm:py-4.5 sm:text-lg'
+              className='h-auto rounded-xl border-[1.5px] px-3 py-2.5 text-base sm:px-4.5 sm:py-4.5 sm:text-lg'
             />
           </div>
 
@@ -672,7 +672,7 @@ export default function ScanToOrder() {
               placeholder='08X-XXX-XXXX'
               value={phone}
               onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
-              className='h-auto rounded-xl border-[1.5px] px-3 py-2.5 text-sm sm:px-4.5 sm:py-4.5 sm:text-lg'
+              className='h-auto rounded-xl border-[1.5px] px-3 py-2.5 text-base sm:px-4.5 sm:py-4.5 sm:text-lg'
             />
           </div>
 
