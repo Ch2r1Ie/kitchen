@@ -26,17 +26,19 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet'
 
+import mockData from '@/app/scan/mock.json'
+
 type OrderType = 'dine-in' | 'takeaway'
 type Screen = 'landing' | 'menu' | 'tracking'
 type PaymentMethod = 'promptpay' | 'card' | 'cash'
 type OrderStatus = 'received' | 'preparing' | 'ready' | 'served'
 
-type Category = { id: string; name: string; nameTh: string }
+type Category = { id: number; name: string; nameTh: string }
 
 type MenuDef = {
   id: string
   image: string
-  category: string
+  category: number
   name: string
   nameTh: string
   desc: string
@@ -53,484 +55,9 @@ type CartLine = {
   qty: number
 }
 
-const CATEGORIES: Category[] = [
-  { id: 'appetizers', name: 'Appetizers', nameTh: 'ของทานเล่น' },
-  { id: 'noodles', name: 'Noodles', nameTh: 'ก๋วยเตี๋ยว' },
-  { id: 'rice', name: 'Rice', nameTh: 'ข้าว' },
-  { id: 'grilled', name: 'Grilled & BBQ', nameTh: 'ปิ้งย่าง' },
-  { id: 'soups', name: 'Soups', nameTh: 'ต้ม' },
-  { id: 'drinks', name: 'Drinks', nameTh: 'เครื่องดื่ม' },
-  { id: 'desserts', name: 'Desserts', nameTh: 'ของหวาน' },
-]
-
-const MENU: MenuDef[] = [
-  {
-    id: 'spring_roll',
-    image: 'https://picsum.photos/400/300',
-    category: 'appetizers',
-    name: 'Fresh Spring Rolls',
-    nameTh: 'ปอเปี๊ยะสด',
-    desc: 'Rice paper rolls with herbs, shrimp & peanut sauce',
-    price: 89,
-    spicy: false,
-  },
-  {
-    id: 'wonton',
-    image: 'https://picsum.photos/400/300',
-    category: 'appetizers',
-    name: 'Fried Wontons',
-    nameTh: 'เกี๊ยวทอด',
-    desc: 'Crispy pork wontons, sweet chili sauce',
-    price: 79,
-    spicy: false,
-  },
-  {
-    id: 'somtum',
-    image: 'https://picsum.photos/400/300',
-    category: 'appetizers',
-    name: 'Papaya Salad',
-    nameTh: 'ส้มตำ',
-    desc: 'Green papaya, tomato, peanut, lime, chili',
-    price: 99,
-    spicy: true,
-  },
-  {
-    id: 'padthai',
-    image: 'https://picsum.photos/400/300',
-    category: 'noodles',
-    name: 'Pad Thai',
-    nameTh: 'ผัดไทย',
-    desc: 'Stir-fried rice noodles, shrimp, tofu, egg, peanuts',
-    price: 129,
-    spicy: true,
-  },
-  {
-    id: 'padseeew',
-    image: 'https://picsum.photos/400/300',
-    category: 'noodles',
-    name: 'Pad See Ew',
-    nameTh: 'ผัดซีอิ๊ว',
-    desc: 'Wide rice noodles, Chinese broccoli, dark soy',
-    price: 119,
-    spicy: false,
-  },
-  {
-    id: 'boatnoodle',
-    image: 'https://picsum.photos/400/300',
-    category: 'noodles',
-    name: 'Boat Noodles',
-    nameTh: 'ก๋วยเตี๋ยวเรือ',
-    desc: 'Rich pork broth, herbs, blood tofu',
-    price: 69,
-    spicy: true,
-  },
-  {
-    id: 'khaopad',
-    image: 'https://picsum.photos/400/300',
-    category: 'rice',
-    name: 'Thai Fried Rice',
-    nameTh: 'ข้าวผัด',
-    desc: 'Jasmine rice, egg, onion, choice of protein',
-    price: 109,
-    spicy: false,
-  },
-  {
-    id: 'khaomangai',
-    image: 'https://picsum.photos/400/300',
-    category: 'rice',
-    name: 'Khao Man Gai',
-    nameTh: 'ข้าวมันไก่',
-    desc: 'Hainanese chicken rice, ginger-soy sauce',
-    price: 99,
-    spicy: false,
-  },
-  {
-    id: 'basilrice',
-    image: 'https://picsum.photos/400/300',
-    category: 'rice',
-    name: 'Basil Fried Rice',
-    nameTh: 'ข้าวผัดกะเพรา',
-    desc: 'Holy basil, chili, garlic, fried egg on top',
-    price: 109,
-    spicy: true,
-  },
-  {
-    id: 'moopin',
-    image: 'https://picsum.photos/400/300',
-    category: 'grilled',
-    name: 'Grilled Pork Skewers',
-    nameTh: 'หมูปิ้ง',
-    desc: 'Marinated pork skewers, charcoal grilled (5 pcs)',
-    price: 59,
-    spicy: false,
-  },
-  {
-    id: 'satay',
-    image: 'https://picsum.photos/400/300',
-    category: 'grilled',
-    name: 'Chicken Satay',
-    nameTh: 'สะเต๊ะไก่',
-    desc: 'Grilled chicken skewers, peanut sauce (5 pcs)',
-    price: 89,
-    spicy: false,
-  },
-  {
-    id: 'grilledsquid',
-    image: 'https://picsum.photos/400/300',
-    category: 'grilled',
-    name: 'Grilled Squid',
-    nameTh: 'ปลาหมึกย่าง',
-    desc: 'Whole squid, seafood dipping sauce',
-    price: 159,
-    spicy: true,
-  },
-  {
-    id: 'tomyum',
-    image: 'https://picsum.photos/400/300',
-    category: 'soups',
-    name: 'Tom Yum Goong',
-    nameTh: 'ต้มยำกุ้ง',
-    desc: 'Hot & sour prawn soup, lemongrass, chili',
-    price: 149,
-    spicy: true,
-  },
-  {
-    id: 'tomkha',
-    image: 'https://picsum.photos/400/300',
-    category: 'soups',
-    name: 'Tom Kha Gai',
-    nameTh: 'ต้มข่าไก่',
-    desc: 'Coconut galangal soup with chicken',
-    price: 119,
-    spicy: true,
-  },
-  {
-    id: 'thaitea',
-    image: 'https://picsum.photos/400/300',
-    category: 'drinks',
-    name: 'Thai Iced Tea',
-    nameTh: 'ชาไทย',
-    desc: 'Sweet milk tea over ice',
-    price: 49,
-    spicy: false,
-  },
-  {
-    id: 'limesoda',
-    image: 'https://picsum.photos/400/300',
-    category: 'drinks',
-    name: 'Fresh Lime Soda',
-    nameTh: 'โซดามะนาว',
-    desc: 'Soda, fresh lime, a touch of salt',
-    price: 45,
-    spicy: false,
-  },
-  {
-    id: 'coconut',
-    image: 'https://picsum.photos/400/300',
-    category: 'drinks',
-    name: 'Coconut Water',
-    nameTh: 'น้ำมะพร้าว',
-    desc: 'Young coconut, served in the shell',
-    price: 59,
-    spicy: false,
-  },
-  {
-    id: 'mangosticky',
-    image: 'https://picsum.photos/400/300',
-    category: 'desserts',
-    name: 'Mango Sticky Rice',
-    nameTh: 'ข้าวเหนียวมะม่วง',
-    desc: 'Sweet sticky rice, coconut cream, ripe mango',
-    price: 99,
-    spicy: false,
-  },
-  {
-    id: 'coconuticecream',
-    image: 'https://picsum.photos/400/300',
-    category: 'desserts',
-    name: 'Coconut Ice Cream',
-    nameTh: 'ไอศกรีมกะทิ',
-    desc: 'Coconut ice cream, roasted peanuts, sticky rice',
-    price: 69,
-    spicy: false,
-  },
-
-  // Appetizers
-  {
-    id: 'fishcake',
-    image: 'https://picsum.photos/400/300',
-    category: 'appetizers',
-    name: 'Thai Fish Cakes',
-    nameTh: 'ทอดมันปลา',
-    desc: 'Curried fish cakes served with cucumber relish',
-    price: 99,
-    spicy: true,
-  },
-  {
-    id: 'shrimpcake',
-    image: 'https://picsum.photos/400/300',
-    category: 'appetizers',
-    name: 'Shrimp Cakes',
-    nameTh: 'ทอดมันกุ้ง',
-    desc: 'Golden fried shrimp cakes with plum sauce',
-    price: 129,
-    spicy: false,
-  },
-  {
-    id: 'larbmoo',
-    image: 'https://picsum.photos/400/300',
-    category: 'appetizers',
-    name: 'Larb Moo',
-    nameTh: 'ลาบหมู',
-    desc: 'Minced pork salad with herbs, lime and toasted rice',
-    price: 109,
-    spicy: true,
-  },
-  {
-    id: 'yumwoonsen',
-    image: 'https://picsum.photos/400/300',
-    category: 'appetizers',
-    name: 'Glass Noodle Salad',
-    nameTh: 'ยำวุ้นเส้น',
-    desc: 'Glass noodles with shrimp, pork and spicy lime dressing',
-    price: 119,
-    spicy: true,
-  },
-
-  // Noodles
-  {
-    id: 'drunkennoodles',
-    image: 'https://picsum.photos/400/300',
-    category: 'noodles',
-    name: 'Drunken Noodles',
-    nameTh: 'ผัดขี้เมา',
-    desc: 'Spicy stir-fried flat noodles with holy basil',
-    price: 129,
-    spicy: true,
-  },
-  {
-    id: 'radna',
-    image: 'https://picsum.photos/400/300',
-    category: 'noodles',
-    name: 'Rad Na',
-    nameTh: 'ราดหน้า',
-    desc: 'Wide noodles with pork and Chinese broccoli in gravy',
-    price: 119,
-    spicy: false,
-  },
-  {
-    id: 'yentafo',
-    image: 'https://picsum.photos/400/300',
-    category: 'noodles',
-    name: 'Yen Ta Fo',
-    nameTh: 'เย็นตาโฟ',
-    desc: 'Pink noodle soup with seafood and tofu',
-    price: 109,
-    spicy: true,
-  },
-  {
-    id: 'suukhothainoodle',
-    image: 'https://picsum.photos/400/300',
-    category: 'noodles',
-    name: 'Sukhothai Noodles',
-    nameTh: 'ก๋วยเตี๋ยวสุโขทัย',
-    desc: 'Sweet, sour and spicy pork noodle soup',
-    price: 99,
-    spicy: true,
-  },
-
-  // Rice
-  {
-    id: 'krapaomoo',
-    image: 'https://picsum.photos/400/300',
-    category: 'rice',
-    name: 'Holy Basil Pork',
-    nameTh: 'ผัดกะเพราหมู',
-    desc: 'Stir-fried minced pork with holy basil and fried egg',
-    price: 119,
-    spicy: true,
-  },
-  {
-    id: 'garlicrice',
-    image: 'https://picsum.photos/400/300',
-    category: 'rice',
-    name: 'Garlic Pork Rice',
-    nameTh: 'ข้าวหมูกระเทียม',
-    desc: 'Garlic pepper pork served over jasmine rice',
-    price: 109,
-    spicy: false,
-  },
-  {
-    id: 'greenchickencurry',
-    image: 'https://picsum.photos/400/300',
-    category: 'rice',
-    name: 'Green Curry Chicken',
-    nameTh: 'แกงเขียวหวานไก่',
-    desc: 'Green curry with chicken, eggplant and jasmine rice',
-    price: 139,
-    spicy: true,
-  },
-  {
-    id: 'massamancurry',
-    image: 'https://picsum.photos/400/300',
-    category: 'rice',
-    name: 'Massaman Beef Curry',
-    nameTh: 'แกงมัสมั่นเนื้อ',
-    desc: 'Rich curry with beef, potatoes and peanuts',
-    price: 159,
-    spicy: true,
-  },
-
-  // Grilled
-  {
-    id: 'grilledchicken',
-    image: 'https://picsum.photos/400/300',
-    category: 'grilled',
-    name: 'Thai Grilled Chicken',
-    nameTh: 'ไก่ย่าง',
-    desc: 'Marinated grilled chicken with spicy dipping sauce',
-    price: 139,
-    spicy: true,
-  },
-  {
-    id: 'korib',
-    image: 'https://picsum.photos/400/300',
-    category: 'grilled',
-    name: 'Grilled Pork Neck',
-    nameTh: 'คอหมูย่าง',
-    desc: 'Charcoal grilled pork neck with jaew sauce',
-    price: 149,
-    spicy: true,
-  },
-  {
-    id: 'grilledprawns',
-    image: 'https://picsum.photos/400/300',
-    category: 'grilled',
-    name: 'Grilled River Prawns',
-    nameTh: 'กุ้งแม่น้ำเผา',
-    desc: 'Large river prawns with seafood sauce',
-    price: 299,
-    spicy: true,
-  },
-
-  // Soups
-  {
-    id: 'gaengjued',
-    image: 'https://picsum.photos/400/300',
-    category: 'soups',
-    name: 'Clear Tofu Soup',
-    nameTh: 'แกงจืดเต้าหู้',
-    desc: 'Clear broth with tofu, pork and vegetables',
-    price: 99,
-    spicy: false,
-  },
-  {
-    id: 'tomsaap',
-    image: 'https://picsum.photos/400/300',
-    category: 'soups',
-    name: 'Tom Saap Pork Ribs',
-    nameTh: 'ต้มแซ่บกระดูกอ่อน',
-    desc: 'Hot and sour pork rib soup with herbs',
-    price: 149,
-    spicy: true,
-  },
-  {
-    id: 'kaengsom',
-    image: 'https://picsum.photos/400/300',
-    category: 'soups',
-    name: 'Sour Curry Soup',
-    nameTh: 'แกงส้ม',
-    desc: 'Traditional sour curry with vegetables and shrimp',
-    price: 139,
-    spicy: true,
-  },
-
-  // Drinks
-  {
-    id: 'greentea',
-    image: 'https://picsum.photos/400/300',
-    category: 'drinks',
-    name: 'Thai Green Milk Tea',
-    nameTh: 'ชาเขียวนม',
-    desc: 'Sweet Thai green tea with milk',
-    price: 49,
-    spicy: false,
-  },
-  {
-    id: 'lemontea',
-    image: 'https://picsum.photos/400/300',
-    category: 'drinks',
-    name: 'Lemon Iced Tea',
-    nameTh: 'ชามะนาว',
-    desc: 'Fresh brewed black tea with lemon',
-    price: 45,
-    spicy: false,
-  },
-  {
-    id: 'roselle',
-    image: 'https://picsum.photos/400/300',
-    category: 'drinks',
-    name: 'Roselle Juice',
-    nameTh: 'น้ำกระเจี๊ยบ',
-    desc: 'Refreshing homemade roselle drink',
-    price: 40,
-    spicy: false,
-  },
-  {
-    id: 'butterflypea',
-    image: 'https://picsum.photos/400/300',
-    category: 'drinks',
-    name: 'Butterfly Pea Lime',
-    nameTh: 'อัญชันมะนาว',
-    desc: 'Butterfly pea flower drink with fresh lime',
-    price: 45,
-    spicy: false,
-  },
-
-  // Desserts
-  {
-    id: 'lodchong',
-    image: 'https://picsum.photos/400/300',
-    category: 'desserts',
-    name: 'Lod Chong',
-    nameTh: 'ลอดช่อง',
-    desc: 'Pandan noodles in coconut milk with ice',
-    price: 59,
-    spicy: false,
-  },
-  {
-    id: 'tubtimkrob',
-    image: 'https://picsum.photos/400/300',
-    category: 'desserts',
-    name: 'Tub Tim Grob',
-    nameTh: 'ทับทิมกรอบ',
-    desc: 'Water chestnuts in coconut milk with crushed ice',
-    price: 69,
-    spicy: false,
-  },
-  {
-    id: 'bananafritter',
-    image: 'https://picsum.photos/400/300',
-    category: 'desserts',
-    name: 'Fried Banana',
-    nameTh: 'กล้วยทอด',
-    desc: 'Crispy fried bananas with sesame',
-    price: 59,
-    spicy: false,
-  },
-  {
-    id: 'kanomkrok',
-    image: 'https://picsum.photos/400/300',
-    category: 'desserts',
-    name: 'Coconut Pancakes',
-    nameTh: 'ขนมครก',
-    desc: 'Traditional coconut rice pancakes',
-    price: 49,
-    spicy: false,
-  },
-]
-
-const STATUS_STEPS: OrderStatus[] = ['received', 'preparing', 'ready', 'served']
+const RESTAURANT = mockData.restaurant
+const CATEGORIES: Category[] = mockData.categories
+const MENU: MenuDef[] = mockData.menu
 
 const bilingual = true
 
@@ -538,14 +65,13 @@ export default function ScanToOrder() {
   const [screen, setScreen] = useState<Screen>('landing')
   const [showCart, setShowCart] = useState(false)
   const [orderType, setOrderType] = useState<OrderType>('dine-in')
-  const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
-  const [activeCategory, setActiveCategory] = useState('noodles')
+  const [activeCategory, setActiveCategory] = useState(CATEGORIES[1].id)
   const [cart, setCart] = useState<CartLine[]>([])
   const [lastCart, setLastCart] = useState<CartLine[]>([])
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('promptpay')
   const [orderNumber, setOrderNumber] = useState<string | null>(null)
-  const [orderStatus, setOrderStatus] = useState<OrderStatus>('received')
+  const [, setOrderStatus] = useState<OrderStatus>('received')
   const timers = useRef<ReturnType<typeof setTimeout>[]>([])
   const trackingCardRef = useRef<HTMLDivElement>(null)
 
@@ -662,7 +188,6 @@ export default function ScanToOrder() {
 
   const cartCount = cart.reduce((sum, l) => sum + l.qty, 0)
   const subtotal = cart.reduce((sum, l) => sum + l.basePrice * l.qty, 0)
-  const vat = Math.round(subtotal)
   const total = subtotal
   const cartIsEmpty = cart.length === 0
 
@@ -676,8 +201,6 @@ export default function ScanToOrder() {
   )
   const trackingVat = Math.round(trackingSubtotal * 0.07)
   const trackingTotal = trackingSubtotal + trackingVat
-
-  const currentIdx = STATUS_STEPS.indexOf(orderStatus)
 
   return (
     <div className='relative min-h-screen bg-white text-[#1d1d1f]'>
@@ -783,7 +306,7 @@ export default function ScanToOrder() {
               </div>
               <div className='min-w-0'>
                 <div className='text-sm font-semibold whitespace-nowrap text-[#1d1d1f]'>
-                  Baan Baan Kitchen
+                  {RESTAURANT.name}
                 </div>
                 <div className='text-xs text-[#7a7a7a] capitalize'>
                   Table 12 · {orderType}
@@ -819,7 +342,7 @@ export default function ScanToOrder() {
                       : 'border-transparent font-normal text-[#7a7a7a]',
                   )}
                 >
-                  {cat.name}
+                  {/* {cat.name} */}
                   {bilingual && (
                     <span className="ml-1 font-['Noto_Sans_Thai',sans-serif]">
                       {cat.nameTh}

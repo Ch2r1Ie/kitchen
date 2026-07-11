@@ -1,42 +1,42 @@
 {
   "restaurant": {
     "id": "3cde829f-c358-456d-b97a-cd8d9dcb9149",
-    "name": "Kitchen",
+    "name": "Kitchen Pos",
     "nameTh": "ครัว"
   },
   "categories": [
     {
-      "id": "appetizers",
+      "id": 1,
       "name": "Appetizers",
       "nameTh": "ของทานเล่น"
     },
     {
-      "id": "noodles",
+      "id": 2,
       "name": "Noodles",
       "nameTh": "ก๋วยเตี๋ยว"
     },
     {
-      "id": "rice",
+      "id": 3,
       "name": "Rice",
       "nameTh": "ข้าว"
     },
     {
-      "id": "grilled",
+      "id": 4,
       "name": "Grilled & BBQ",
       "nameTh": "ปิ้งย่าง"
     },
     {
-      "id": "soups",
+      "id": 5,
       "name": "Soups",
       "nameTh": "ต้ม"
     },
     {
-      "id": "drinks",
+      "id": 6,
       "name": "Drinks",
       "nameTh": "เครื่องดื่ม"
     },
     {
-      "id": "desserts",
+      "id": 7,
       "name": "Desserts",
       "nameTh": "ของหวาน"
     }
@@ -45,7 +45,7 @@
     {
       "id": "spring_roll",
       "image": "https://picsum.photos/400/300",
-      "category": "appetizers",
+      "category": 1,
       "name": "Fresh Spring Rolls",
       "nameTh": "ปอเปี๊ยะสด",
       "desc": "Rice paper rolls with herbs, shrimp & peanut sauce",
@@ -55,7 +55,7 @@
     {
       "id": "wonton",
       "image": "https://picsum.photos/400/300",
-      "category": "appetizers",
+      "category": 1,
       "name": "Fried Wontons",
       "nameTh": "เกี๊ยวทอด",
       "desc": "Crispy pork wontons, sweet chili sauce",
@@ -65,7 +65,7 @@
     {
       "id": "somtum",
       "image": "https://picsum.photos/400/300",
-      "category": "appetizers",
+      "category": 1,
       "name": "Papaya Salad",
       "nameTh": "ส้มตำ",
       "desc": "Green papaya, tomato, peanut, lime, chili",
@@ -75,7 +75,7 @@
     {
       "id": "padthai",
       "image": "https://picsum.photos/400/300",
-      "category": "noodles",
+      "category": 2,
       "name": "Pad Thai",
       "nameTh": "ผัดไทย",
       "desc": "Stir-fried rice noodles, shrimp, tofu, egg, peanuts",
@@ -85,7 +85,7 @@
     {
       "id": "padseeew",
       "image": "https://picsum.photos/400/300",
-      "category": "noodles",
+      "category": 2,
       "name": "Pad See Ew",
       "nameTh": "ผัดซีอิ๊ว",
       "desc": "Wide rice noodles, Chinese broccoli, dark soy",
@@ -95,7 +95,7 @@
     {
       "id": "boatnoodle",
       "image": "https://picsum.photos/400/300",
-      "category": "noodles",
+      "category": 2,
       "name": "Boat Noodles",
       "nameTh": "ก๋วยเตี๋ยวเรือ",
       "desc": "Rich pork broth, herbs, blood tofu",
@@ -105,7 +105,7 @@
     {
       "id": "khaopad",
       "image": "https://picsum.photos/400/300",
-      "category": "rice",
+      "category": 3,
       "name": "Thai Fried Rice",
       "nameTh": "ข้าวผัด",
       "desc": "Jasmine rice, egg, onion, choice of protein",
@@ -115,7 +115,7 @@
     {
       "id": "khaomangai",
       "image": "https://picsum.photos/400/300",
-      "category": "rice",
+      "category": 3,
       "name": "Khao Man Gai",
       "nameTh": "ข้าวมันไก่",
       "desc": "Hainanese chicken rice, ginger-soy sauce",
@@ -125,7 +125,7 @@
     {
       "id": "basilrice",
       "image": "https://picsum.photos/400/300",
-      "category": "rice",
+      "category": 3,
       "name": "Basil Fried Rice",
       "nameTh": "ข้าวผัดกะเพรา",
       "desc": "Holy basil, chili, garlic, fried egg on top",
@@ -135,7 +135,7 @@
     {
       "id": "moopin",
       "image": "https://picsum.photos/400/300",
-      "category": "grilled",
+      "category": 4,
       "name": "Grilled Pork Skewers",
       "nameTh": "หมูปิ้ง",
       "desc": "Marinated pork skewers, charcoal grilled (5 pcs)",
@@ -145,7 +145,7 @@
     {
       "id": "satay",
       "image": "https://picsum.photos/400/300",
-      "category": "grilled",
+      "category": 4,
       "name": "Chicken Satay",
       "nameTh": "สะเต๊ะไก่",
       "desc": "Grilled chicken skewers, peanut sauce (5 pcs)",
@@ -155,7 +155,7 @@
     {
       "id": "grilledsquid",
       "image": "https://picsum.photos/400/300",
-      "category": "grilled",
+      "category": 4,
       "name": "Grilled Squid",
       "nameTh": "ปลาหมึกย่าง",
       "desc": "Whole squid, seafood dipping sauce",
@@ -165,7 +165,7 @@
     {
       "id": "tomyum",
       "image": "https://picsum.photos/400/300",
-      "category": "soups",
+      "category": 5,
       "name": "Tom Yum Goong",
       "nameTh": "ต้มยำกุ้ง",
       "desc": "Hot & sour prawn soup, lemongrass, chili",
@@ -175,7 +175,7 @@
     {
       "id": "tomkha",
       "image": "https://picsum.photos/400/300",
-      "category": "soups",
+      "category": 5,
       "name": "Tom Kha Gai",
       "nameTh": "ต้มข่าไก่",
       "desc": "Coconut galangal soup with chicken",
@@ -185,7 +185,7 @@
     {
       "id": "thaitea",
       "image": "https://picsum.photos/400/300",
-      "category": "drinks",
+      "category": 6,
       "name": "Thai Iced Tea",
       "nameTh": "ชาไทย",
       "desc": "Sweet milk tea over ice",
@@ -195,7 +195,7 @@
     {
       "id": "limesoda",
       "image": "https://picsum.photos/400/300",
-      "category": "drinks",
+      "category": 6,
       "name": "Fresh Lime Soda",
       "nameTh": "โซดามะนาว",
       "desc": "Soda, fresh lime, a touch of salt",
@@ -205,7 +205,7 @@
     {
       "id": "coconut",
       "image": "https://picsum.photos/400/300",
-      "category": "drinks",
+      "category": 6,
       "name": "Coconut Water",
       "nameTh": "น้ำมะพร้าว",
       "desc": "Young coconut, served in the shell",
@@ -215,7 +215,7 @@
     {
       "id": "mangosticky",
       "image": "https://picsum.photos/400/300",
-      "category": "desserts",
+      "category": 7,
       "name": "Mango Sticky Rice",
       "nameTh": "ข้าวเหนียวมะม่วง",
       "desc": "Sweet sticky rice, coconut cream, ripe mango",
@@ -225,7 +225,7 @@
     {
       "id": "coconuticecream",
       "image": "https://picsum.photos/400/300",
-      "category": "desserts",
+      "category": 7,
       "name": "Coconut Ice Cream",
       "nameTh": "ไอศกรีมกะทิ",
       "desc": "Coconut ice cream, roasted peanuts, sticky rice",
@@ -235,7 +235,7 @@
     {
       "id": "fishcake",
       "image": "https://picsum.photos/400/300",
-      "category": "appetizers",
+      "category": 1,
       "name": "Thai Fish Cakes",
       "nameTh": "ทอดมันปลา",
       "desc": "Curried fish cakes served with cucumber relish",
@@ -245,7 +245,7 @@
     {
       "id": "shrimpcake",
       "image": "https://picsum.photos/400/300",
-      "category": "appetizers",
+      "category": 1,
       "name": "Shrimp Cakes",
       "nameTh": "ทอดมันกุ้ง",
       "desc": "Golden fried shrimp cakes with plum sauce",
@@ -255,7 +255,7 @@
     {
       "id": "larbmoo",
       "image": "https://picsum.photos/400/300",
-      "category": "appetizers",
+      "category": 1,
       "name": "Larb Moo",
       "nameTh": "ลาบหมู",
       "desc": "Minced pork salad with herbs, lime and toasted rice",
@@ -265,7 +265,7 @@
     {
       "id": "yumwoonsen",
       "image": "https://picsum.photos/400/300",
-      "category": "appetizers",
+      "category": 1,
       "name": "Glass Noodle Salad",
       "nameTh": "ยำวุ้นเส้น",
       "desc": "Glass noodles with shrimp, pork and spicy lime dressing",
@@ -275,7 +275,7 @@
     {
       "id": "drunkennoodles",
       "image": "https://picsum.photos/400/300",
-      "category": "noodles",
+      "category": 2,
       "name": "Drunken Noodles",
       "nameTh": "ผัดขี้เมา",
       "desc": "Spicy stir-fried flat noodles with holy basil",
@@ -285,7 +285,7 @@
     {
       "id": "radna",
       "image": "https://picsum.photos/400/300",
-      "category": "noodles",
+      "category": 2,
       "name": "Rad Na",
       "nameTh": "ราดหน้า",
       "desc": "Wide noodles with pork and Chinese broccoli in gravy",
@@ -295,7 +295,7 @@
     {
       "id": "yentafo",
       "image": "https://picsum.photos/400/300",
-      "category": "noodles",
+      "category": 2,
       "name": "Yen Ta Fo",
       "nameTh": "เย็นตาโฟ",
       "desc": "Pink noodle soup with seafood and tofu",
@@ -305,7 +305,7 @@
     {
       "id": "suukhothainoodle",
       "image": "https://picsum.photos/400/300",
-      "category": "noodles",
+      "category": 2,
       "name": "Sukhothai Noodles",
       "nameTh": "ก๋วยเตี๋ยวสุโขทัย",
       "desc": "Sweet, sour and spicy pork noodle soup",
@@ -315,7 +315,7 @@
     {
       "id": "krapaomoo",
       "image": "https://picsum.photos/400/300",
-      "category": "rice",
+      "category": 3,
       "name": "Holy Basil Pork",
       "nameTh": "ผัดกะเพราหมู",
       "desc": "Stir-fried minced pork with holy basil and fried egg",
@@ -325,7 +325,7 @@
     {
       "id": "garlicrice",
       "image": "https://picsum.photos/400/300",
-      "category": "rice",
+      "category": 3,
       "name": "Garlic Pork Rice",
       "nameTh": "ข้าวหมูกระเทียม",
       "desc": "Garlic pepper pork served over jasmine rice",
@@ -335,7 +335,7 @@
     {
       "id": "greenchickencurry",
       "image": "https://picsum.photos/400/300",
-      "category": "rice",
+      "category": 3,
       "name": "Green Curry Chicken",
       "nameTh": "แกงเขียวหวานไก่",
       "desc": "Green curry with chicken, eggplant and jasmine rice",
@@ -345,7 +345,7 @@
     {
       "id": "massamancurry",
       "image": "https://picsum.photos/400/300",
-      "category": "rice",
+      "category": 3,
       "name": "Massaman Beef Curry",
       "nameTh": "แกงมัสมั่นเนื้อ",
       "desc": "Rich curry with beef, potatoes and peanuts",
@@ -355,7 +355,7 @@
     {
       "id": "grilledchicken",
       "image": "https://picsum.photos/400/300",
-      "category": "grilled",
+      "category": 4,
       "name": "Thai Grilled Chicken",
       "nameTh": "ไก่ย่าง",
       "desc": "Marinated grilled chicken with spicy dipping sauce",
@@ -365,7 +365,7 @@
     {
       "id": "korib",
       "image": "https://picsum.photos/400/300",
-      "category": "grilled",
+      "category": 4,
       "name": "Grilled Pork Neck",
       "nameTh": "คอหมูย่าง",
       "desc": "Charcoal grilled pork neck with jaew sauce",
@@ -375,7 +375,7 @@
     {
       "id": "grilledprawns",
       "image": "https://picsum.photos/400/300",
-      "category": "grilled",
+      "category": 4,
       "name": "Grilled River Prawns",
       "nameTh": "กุ้งแม่น้ำเผา",
       "desc": "Large river prawns with seafood sauce",
@@ -385,7 +385,7 @@
     {
       "id": "gaengjued",
       "image": "https://picsum.photos/400/300",
-      "category": "soups",
+      "category": 5,
       "name": "Clear Tofu Soup",
       "nameTh": "แกงจืดเต้าหู้",
       "desc": "Clear broth with tofu, pork and vegetables",
@@ -395,7 +395,7 @@
     {
       "id": "tomsaap",
       "image": "https://picsum.photos/400/300",
-      "category": "soups",
+      "category": 5,
       "name": "Tom Saap Pork Ribs",
       "nameTh": "ต้มแซ่บกระดูกอ่อน",
       "desc": "Hot and sour pork rib soup with herbs",
@@ -405,7 +405,7 @@
     {
       "id": "kaengsom",
       "image": "https://picsum.photos/400/300",
-      "category": "soups",
+      "category": 5,
       "name": "Sour Curry Soup",
       "nameTh": "แกงส้ม",
       "desc": "Traditional sour curry with vegetables and shrimp",
@@ -415,7 +415,7 @@
     {
       "id": "greentea",
       "image": "https://picsum.photos/400/300",
-      "category": "drinks",
+      "category": 6,
       "name": "Thai Green Milk Tea",
       "nameTh": "ชาเขียวนม",
       "desc": "Sweet Thai green tea with milk",
@@ -425,7 +425,7 @@
     {
       "id": "lemontea",
       "image": "https://picsum.photos/400/300",
-      "category": "drinks",
+      "category": 6,
       "name": "Lemon Iced Tea",
       "nameTh": "ชามะนาว",
       "desc": "Fresh brewed black tea with lemon",
@@ -435,7 +435,7 @@
     {
       "id": "roselle",
       "image": "https://picsum.photos/400/300",
-      "category": "drinks",
+      "category": 6,
       "name": "Roselle Juice",
       "nameTh": "น้ำกระเจี๊ยบ",
       "desc": "Refreshing homemade roselle drink",
@@ -445,7 +445,7 @@
     {
       "id": "butterflypea",
       "image": "https://picsum.photos/400/300",
-      "category": "drinks",
+      "category": 6,
       "name": "Butterfly Pea Lime",
       "nameTh": "อัญชันมะนาว",
       "desc": "Butterfly pea flower drink with fresh lime",
@@ -455,7 +455,7 @@
     {
       "id": "lodchong",
       "image": "https://picsum.photos/400/300",
-      "category": "desserts",
+      "category": 7,
       "name": "Lod Chong",
       "nameTh": "ลอดช่อง",
       "desc": "Pandan noodles in coconut milk with ice",
@@ -465,7 +465,7 @@
     {
       "id": "tubtimkrob",
       "image": "https://picsum.photos/400/300",
-      "category": "desserts",
+      "category": 7,
       "name": "Tub Tim Grob",
       "nameTh": "ทับทิมกรอบ",
       "desc": "Water chestnuts in coconut milk with crushed ice",
@@ -475,7 +475,7 @@
     {
       "id": "bananafritter",
       "image": "https://picsum.photos/400/300",
-      "category": "desserts",
+      "category": 7,
       "name": "Fried Banana",
       "nameTh": "กล้วยทอด",
       "desc": "Crispy fried bananas with sesame",
@@ -485,7 +485,7 @@
     {
       "id": "kanomkrok",
       "image": "https://picsum.photos/400/300",
-      "category": "desserts",
+      "category": 7,
       "name": "Coconut Pancakes",
       "nameTh": "ขนมครก",
       "desc": "Traditional coconut rice pancakes",
