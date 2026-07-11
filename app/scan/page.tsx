@@ -965,7 +965,10 @@ export default function ScanToOrder() {
       )}
 
       <Sheet open={showCart} onOpenChange={setShowCart}>
-        <SheetContent className='flex w-full max-w-none flex-col gap-0 bg-white p-0 sm:max-w-105'>
+        <SheetContent
+          side='right'
+          className='flex w-[90vw] max-w-none flex-col gap-0 bg-white p-0 data-[side=right]:w-[90vw] data-[side=right]:sm:max-w-none'
+        >
           <SheetHeader className='flex-row items-center justify-between gap-2 border-b border-[#f0f0f0] p-4.5'>
             <SheetTitle className='text-base font-semibold text-[#1d1d1f]'>
               Your Order{' '}
