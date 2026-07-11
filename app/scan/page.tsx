@@ -36,7 +36,7 @@ type OrderStatus = 'received' | 'preparing' | 'ready' | 'served'
 type Category = { id: number; name: string; nameTh: string }
 
 type MenuDef = {
-  id: string
+  id: number
   image: string
   category: number
   name: string
@@ -47,8 +47,8 @@ type MenuDef = {
 }
 
 type CartLine = {
-  key: string
-  id: string
+  key: number
+  id: number
   name: string
   nameTh: string
   basePrice: number
@@ -127,7 +127,7 @@ export default function ScanToOrder() {
     )
   }
 
-  function updateCartQty(key: string, delta: number) {
+  function updateCartQty(key: number, delta: number) {
     setCart((prev) =>
       prev
         .map((l) =>
@@ -137,7 +137,7 @@ export default function ScanToOrder() {
     )
   }
 
-  function removeCartLine(key: string) {
+  function removeCartLine(key: number) {
     setCart((prev) => prev.filter((l) => l.key !== key))
   }
 
@@ -179,7 +179,7 @@ export default function ScanToOrder() {
     link.click()
   }
 
-  const cartQtyById: Record<string, number> = {}
+  const cartQtyById: Record<number, number> = {}
   cart.forEach((l) => {
     cartQtyById[l.id] = l.qty
   })
@@ -342,7 +342,6 @@ export default function ScanToOrder() {
                       : 'border-transparent font-normal text-[#7a7a7a]',
                   )}
                 >
-                  {/* {cat.name} */}
                   {bilingual && (
                     <span className="ml-1 font-['Noto_Sans_Thai',sans-serif]">
                       {cat.nameTh}
