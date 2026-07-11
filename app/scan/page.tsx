@@ -8,8 +8,10 @@ import {
   Minus,
   Plus,
   QrCode,
+  ShoppingBag,
   ShoppingCart,
   Trash2,
+  UtensilsCrossed,
 } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
@@ -555,6 +557,13 @@ export default function ScanToOrder() {
 
   const phoneInvalid = phone.replace(/\D/g, '').length < 9
 
+  function formatPhone(digits: string) {
+    const d = digits.slice(0, 10)
+    if (d.length <= 3) return d
+    if (d.length <= 6) return `${d.slice(0, 3)}-${d.slice(3)}`
+    return `${d.slice(0, 3)}-${d.slice(3, 6)}-${d.slice(6)}`
+  }
+
   function goToMenu() {
     if (!phoneInvalid) {
       setScreen('menu')
@@ -671,52 +680,67 @@ export default function ScanToOrder() {
   const currentIdx = STATUS_STEPS.indexOf(orderStatus)
 
   return (
-    <div className='relative min-h-screen bg-muted/40 text-foreground'>
+    <div className='relative min-h-screen bg-white text-[#1d1d1f]'>
       {screen === 'landing' && (
         <div className='flex min-h-screen flex-col items-center justify-center gap-4 px-4 py-6 text-center sm:gap-5 sm:px-5 sm:py-8'>
           <div className='flex flex-col items-center gap-3 sm:gap-4'>
-            <div className='max-w-80 text-3xl leading-snug font-light tracking-wide text-foreground/80 sm:max-w-100 sm:text-4xl'>
+            <div className='max-w-80 text-3xl leading-tight font-semibold tracking-[-0.374px] text-[#1d1d1f] sm:max-w-100 sm:text-4xl'>
               Scan · Order · Enjoy
               {bilingual && (
-                <div className="mt-0.5 font-['Noto_Sans_Thai',sans-serif] text-3xl font-light sm:text-[36px]">
+                <div className="mt-0.5 font-['Noto_Sans_Thai',sans-serif] text-3xl font-semibold sm:text-[36px]">
                   สแกน สั่ง อิ่มอร่อย
                 </div>
               )}
             </div>
 
             <Badge
-              variant='secondary'
-              className='h-auto gap-1 rounded-full px-2.5 text-xs font-semibold sm:px-3 sm:text-[13px]'
+              variant='outline'
+              className='h-auto gap-1 rounded-full border-0 bg-[#fafafc] px-2.5 text-xs font-semibold text-[#333333] sm:px-3 sm:text-[13px]'
             >
-              <Check className='size-3 text-green-600' strokeWidth={3} />
+              <Check className='size-3 text-[#000000]' strokeWidth={3} />
               Table 12 · Ready to order
             </Badge>
           </div>
 
-          <div className='mt-1 w-full max-w-85 text-left sm:mt-2 sm:max-w-90'>
-            <div className='mb-2 text-sm font-semibold sm:mb-2.5 sm:text-base'>
-              Name
-              {bilingual && (
-                <span className="font-['Noto_Sans_Thai',sans-serif] font-normal text-muted-foreground">
-                  {' '}
-                  · ชื่อ
-                </span>
+          <div className='relative flex w-full max-w-85 rounded-full border border-[#e0e0e0] bg-[#f5f5f7] p-1 sm:max-w-90'>
+            <div
+              aria-hidden
+              className={cn(
+                'absolute inset-y-1 w-[calc(50%-0.125rem)] rounded-full bg-[#000000] transition-transform duration-200 ease-out',
+                orderType === 'takeaway'
+                  ? 'translate-x-[calc(100%+0.25rem)]'
+                  : 'translate-x-0',
               )}
-            </div>
-            <Input
-              type='text'
-              placeholder='Your name'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className='h-auto rounded-xl border-[1.5px] px-3 py-2.5 text-base sm:px-4.5 sm:py-4.5 sm:text-lg'
             />
+            <button
+              type='button'
+              onClick={() => setOrderType('dine-in')}
+              className={cn(
+                'relative z-10 flex flex-1 items-center justify-center gap-1.5 rounded-full py-2.5 text-sm font-semibold transition-colors sm:py-3.5 sm:text-base',
+                orderType === 'dine-in' ? 'text-white' : 'text-[#7a7a7a]',
+              )}
+            >
+              <UtensilsCrossed className='size-4' />
+              กินที่ร้าน
+            </button>
+            <button
+              type='button'
+              onClick={() => setOrderType('takeaway')}
+              className={cn(
+                'relative z-10 flex flex-1 items-center justify-center gap-1.5 rounded-full py-2.5 text-sm font-semibold transition-colors sm:py-3.5 sm:text-base',
+                orderType === 'takeaway' ? 'text-white' : 'text-[#7a7a7a]',
+              )}
+            >
+              <ShoppingBag className='size-4' />
+              รับกลับบ้าน
+            </button>
           </div>
 
           <div className='w-full max-w-85 text-left sm:max-w-90'>
             <div className='mb-2 text-sm font-semibold sm:mb-2.5 sm:text-base'>
               Mobile Number
               {bilingual && (
-                <span className="font-['Noto_Sans_Thai',sans-serif] font-normal text-muted-foreground">
+                <span className="font-['Noto_Sans_Thai',sans-serif] font-normal text-[#7a7a7a]">
                   {' '}
                   · เบอร์โทรศัพท์
                 </span>
@@ -726,9 +750,11 @@ export default function ScanToOrder() {
               type='tel'
               inputMode='tel'
               placeholder='08X-XXX-XXXX'
-              value={phone}
-              onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
-              className='h-auto rounded-xl border-[1.5px] px-3 py-2.5 text-base sm:px-4.5 sm:py-4.5 sm:text-lg'
+              value={formatPhone(phone)}
+              onChange={(e) =>
+                setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))
+              }
+              className='h-auto rounded-full border-[1.5px] border-[#e0e0e0] px-4 py-2.5 text-base focus-visible:border-[#1d1d1f] focus-visible:ring-[#1d1d1f]/30 sm:px-4 sm:py-3 sm:text-lg'
             />
           </div>
 
@@ -736,7 +762,7 @@ export default function ScanToOrder() {
             size='lg'
             onClick={goToMenu}
             disabled={phoneInvalid}
-            className='mt-1 h-auto w-full max-w-85 rounded-xl py-3 text-sm font-bold shadow-sm sm:max-w-90 sm:py-5 sm:text-lg'
+            className='h-auto w-full max-w-85 rounded-full bg-[#000000] py-3 text-sm font-normal text-white transition-transform active:scale-95 hover:bg-[#1d1d1f] sm:max-w-90 sm:py-3 sm:text-lg'
           >
             View Menu
             {bilingual && (
@@ -749,17 +775,17 @@ export default function ScanToOrder() {
       )}
 
       {screen === 'menu' && (
-        <div className='min-h-screen pb-15'>
-          <div className='sticky top-0 z-20 flex flex-wrap items-center gap-4 border-b border-border bg-background px-5 py-3.5'>
+        <div className='min-h-screen bg-white pb-15'>
+          <div className='sticky top-0 z-20 flex flex-wrap items-center gap-4 border-b border-[#f0f0f0] bg-white/95 px-5 py-3.5 backdrop-blur'>
             <div className='flex min-w-0 flex-1 items-center gap-2.5'>
-              <div className='flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground'>
+              <div className='flex size-9 shrink-0 items-center justify-center rounded-[8px] bg-[#1d1d1f] text-white'>
                 <QrCode className='size-4.5' />
               </div>
               <div className='min-w-0'>
-                <div className='text-sm font-bold whitespace-nowrap'>
+                <div className='text-sm font-semibold whitespace-nowrap text-[#1d1d1f]'>
                   Baan Baan Kitchen
                 </div>
-                <div className='text-xs text-muted-foreground capitalize'>
+                <div className='text-xs text-[#7a7a7a] capitalize'>
                   Table 12 · {orderType}
                 </div>
               </div>
@@ -767,19 +793,19 @@ export default function ScanToOrder() {
             <Button
               variant='ghost'
               size='icon'
-              className='relative shrink-0'
+              className='relative shrink-0 text-[#1d1d1f] hover:bg-[#f5f5f7]'
               onClick={() => setShowCart((v) => !v)}
             >
               <ShoppingCart className='size-4.75' />
               {cartCount > 0 && (
-                <span className='absolute -top-1.5 -right-1.5 flex h-4.5 min-w-4.5 items-center justify-center rounded-full border-2 border-muted bg-red-600 px-1 text-[11px] font-bold text-white'>
+                <span className='absolute -top-1.5 -right-1.5 flex h-4.5 min-w-4.5 items-center justify-center rounded-full border-2 border-white bg-[#000000] px-1 text-[11px] font-bold text-white'>
                   {cartCount}
                 </span>
               )}
             </Button>
           </div>
 
-          <div className='flex gap-5 overflow-x-auto border-b border-border bg-background px-5'>
+          <div className='flex gap-5 overflow-x-auto border-b border-[#f0f0f0] bg-white px-5'>
             {CATEGORIES.map((cat) => {
               const active = cat.id === activeCategory
               return (
@@ -789,8 +815,8 @@ export default function ScanToOrder() {
                   className={cn(
                     'shrink-0 border-b-2 py-3 text-sm whitespace-nowrap',
                     active
-                      ? 'border-foreground font-semibold text-foreground'
-                      : 'border-transparent font-medium text-muted-foreground',
+                      ? 'border-[#000000] font-semibold text-[#000000]'
+                      : 'border-transparent font-normal text-[#7a7a7a]',
                   )}
                 >
                   {cat.name}
@@ -810,52 +836,60 @@ export default function ScanToOrder() {
               return (
                 <div
                   key={item.id}
-                  className='flex items-stretch gap-3.5 rounded-[10px] border border-border bg-background p-3'
+                  className='flex items-stretch gap-3.5 rounded-[18px] border border-[#e0e0e0] bg-white p-3'
                 >
                   <img
                     src={item.image}
                     alt={item.name}
-                    className='size-28 shrink-0 rounded-lg object-cover'
+                    className='size-28 shrink-0 rounded-[8px] object-cover'
                   />
                   <div className='flex min-w-0 flex-1 flex-col justify-between gap-1'>
                     <div>
                       <div className='flex items-start justify-between gap-2'>
-                        <div className='text-[15px] font-semibold'>
+                        <div className='text-[15px] font-semibold text-[#1d1d1f]'>
                           {item.nameTh}
                         </div>
                       </div>
                       {bilingual && (
-                        <div className="font-['Noto_Sans_Thai',sans-serif] text-xs text-muted-foreground">
+                        <div className="font-['Noto_Sans_Thai',sans-serif] text-xs text-[#7a7a7a]">
                           {item.name}
                         </div>
                       )}
-                      <div className='mt-1 line-clamp-2 text-[13px] leading-snug text-muted-foreground'>
+                      <div className='mt-1 line-clamp-2 text-[13px] leading-snug text-[#7a7a7a]'>
                         {item.desc}
                       </div>
                     </div>
                     <div className='flex items-center justify-between'>
-                      <div className='text-sm font-bold'>฿{item.price}</div>
+                      <div className='text-sm font-semibold text-[#1d1d1f]'>
+                        ฿{item.price}
+                      </div>
                       {qty > 0 ? (
                         <div className='flex items-center gap-2.5'>
                           <Button
                             variant='outline'
                             size='icon-sm'
+                            className='rounded-full border-[#000000] text-[#000000] hover:bg-[#f5f5f7]'
                             onClick={() => decItemQty(item)}
                           >
                             <Minus className='size-3.5' />
                           </Button>
-                          <div className='min-w-3.5 text-center text-sm font-bold'>
+                          <div className='min-w-3.5 text-center text-sm font-semibold text-[#1d1d1f]'>
                             {qty}
                           </div>
                           <Button
                             size='icon-sm'
+                            className='rounded-full bg-[#000000] text-white transition-transform active:scale-95 hover:bg-[#1d1d1f]'
                             onClick={() => incItemQty(item)}
                           >
                             <Plus className='size-3.5' />
                           </Button>
                         </div>
                       ) : (
-                        <Button size='sm' onClick={() => incItemQty(item)}>
+                        <Button
+                          size='sm'
+                          className='rounded-full bg-[#000000] text-white transition-transform active:scale-95 hover:bg-[#1d1d1f]'
+                          onClick={() => incItemQty(item)}
+                        >
                           + Add
                         </Button>
                       )}
@@ -869,37 +903,40 @@ export default function ScanToOrder() {
       )}
 
       {screen === 'tracking' && (
-        <div className='flex min-h-screen items-center justify-center px-5 py-8'>
+        <div className='flex min-h-screen items-center justify-center bg-white px-5 py-8'>
           <div className='flex w-full max-w-140 flex-col gap-6'>
             <div
               ref={trackingCardRef}
-              className='flex flex-col gap-6 rounded-xl border border-border bg-background p-8'
+              className='flex flex-col gap-6 rounded-[18px] border border-[#e0e0e0] bg-white p-8'
             >
               <div className='text-center'>
-                <div className='text-xs tracking-wide text-muted-foreground uppercase'>
+                <div className='text-xs tracking-wide text-[#7a7a7a] uppercase'>
                   Order Number
                 </div>
-                <div className='mt-1 text-[30px] font-extrabold'>
+                <div className='mt-1 text-[30px] font-semibold text-[#000000]'>
                   {orderNumber}
                 </div>
-                <div className='mt-1.5 text-[13px] text-muted-foreground capitalize'>
+                <div className='mt-1.5 text-[13px] text-[#7a7a7a] capitalize'>
                   {orderType} · Table 12
                 </div>
               </div>
 
               <div className='flex flex-col gap-2.5'>
-                <div className='text-xs font-semibold tracking-wide text-muted-foreground uppercase'>
+                <div className='text-xs font-semibold tracking-wide text-[#7a7a7a] uppercase'>
                   Order Summary
                 </div>
                 {trackingLines.map((tl) => (
-                  <div key={tl.key} className='flex justify-between text-sm'>
+                  <div
+                    key={tl.key}
+                    className='flex justify-between text-sm text-[#1d1d1f]'
+                  >
                     <div>
                       {tl.qty}× {tl.name}
                     </div>
                     <div className='font-semibold'>฿{tl.lineTotal}</div>
                   </div>
                 ))}
-                <div className='mt-1 flex justify-between border-t border-border pt-2.5 text-[15px] font-bold'>
+                <div className='mt-1 flex justify-between border-t border-[#e0e0e0] pt-2.5 text-[15px] font-semibold text-[#1d1d1f]'>
                   <div>Total Paid</div>
                   <div>฿{trackingTotal}</div>
                 </div>
@@ -909,7 +946,7 @@ export default function ScanToOrder() {
             <Button
               size='lg'
               variant='outline'
-              className='h-auto rounded-[10px] py-3.5 text-sm'
+              className='h-auto rounded-full border-[#000000] py-3.5 text-sm text-[#000000] transition-transform active:scale-95 hover:bg-[#f5f5f7]'
               onClick={saveTrackingPhoto}
             >
               <Camera className='size-4' />
@@ -918,7 +955,7 @@ export default function ScanToOrder() {
 
             <Button
               size='lg'
-              className='h-auto rounded-[10px] py-3.5 text-sm'
+              className='h-auto rounded-full bg-[#000000] py-3.5 text-sm text-white transition-transform active:scale-95 hover:bg-[#1d1d1f]'
               onClick={newOrder}
             >
               Order More Items
@@ -928,12 +965,12 @@ export default function ScanToOrder() {
       )}
 
       <Sheet open={showCart} onOpenChange={setShowCart}>
-        <SheetContent className='flex w-full max-w-none flex-col gap-0 p-0 sm:max-w-105'>
-          <SheetHeader className='flex-row items-center justify-between gap-2 border-b border-border p-4.5'>
-            <SheetTitle className='text-base font-bold'>
+        <SheetContent className='flex w-full max-w-none flex-col gap-0 bg-white p-0 sm:max-w-105'>
+          <SheetHeader className='flex-row items-center justify-between gap-2 border-b border-[#f0f0f0] p-4.5'>
+            <SheetTitle className='text-base font-semibold text-[#1d1d1f]'>
               Your Order{' '}
               {bilingual && (
-                <span className="font-['Noto_Sans_Thai',sans-serif] text-[13px] font-medium text-muted-foreground">
+                <span className="font-['Noto_Sans_Thai',sans-serif] text-[13px] font-medium text-[#7a7a7a]">
                   · ออเดอร์ของคุณ
                 </span>
               )}
@@ -942,7 +979,7 @@ export default function ScanToOrder() {
 
           <div className='flex flex-1 flex-col gap-3.5 overflow-y-auto p-4.5'>
             {cartIsEmpty && (
-              <div className='px-2.5 py-10 text-center text-sm text-muted-foreground'>
+              <div className='px-2.5 py-10 text-center text-sm text-[#7a7a7a]'>
                 Your cart is empty
                 <br />
                 ตะกร้าว่างเปล่า
@@ -951,22 +988,28 @@ export default function ScanToOrder() {
             {cart.map((line) => (
               <div
                 key={line.key}
-                className='flex gap-3 border-b border-border/60 pb-3.5'
+                className='flex gap-3 border-b border-[#f0f0f0] pb-3.5'
               >
                 <div className='flex-1'>
-                  <div className='text-sm font-semibold'>{line.nameTh}</div>
+                  <div className='text-sm font-semibold text-[#1d1d1f]'>
+                    {line.nameTh}
+                  </div>
                   <div className='mt-2 flex items-center gap-2.5'>
                     <Button
                       variant='outline'
                       size='icon-sm'
+                      className='rounded-full border-[#000000] text-[#000000] hover:bg-[#f5f5f7]'
                       onClick={() => updateCartQty(line.key, -1)}
                     >
                       <Minus className='size-3' />
                     </Button>
-                    <div className='text-[13px] font-semibold'>{line.qty}</div>
+                    <div className='text-[13px] font-semibold text-[#1d1d1f]'>
+                      {line.qty}
+                    </div>
                     <Button
                       variant='outline'
                       size='icon-sm'
+                      className='rounded-full border-[#000000] text-[#000000] hover:bg-[#f5f5f7]'
                       onClick={() => updateCartQty(line.key, 1)}
                     >
                       <Plus className='size-3' />
@@ -974,13 +1017,13 @@ export default function ScanToOrder() {
                   </div>
                 </div>
                 <div className='flex flex-col items-end justify-between text-right'>
-                  <div className='text-sm font-bold'>
+                  <div className='text-sm font-semibold text-[#1d1d1f]'>
                     ฿{line.basePrice * line.qty}
                   </div>
                   <button
                     onClick={() => removeCartLine(line.key)}
                     aria-label='Remove item'
-                    className='mb-1 mr-1'
+                    className='mb-1 mr-1 text-[#7a7a7a] hover:text-[#1d1d1f]'
                   >
                     <Trash2 className='size-4' />
                   </button>
@@ -989,34 +1032,52 @@ export default function ScanToOrder() {
             ))}
           </div>
 
-          <div className='flex flex-col gap-3 border-t border-border p-4.5'>
-            <div className='flex justify-between text-[13px] text-muted-foreground'>
+          <div className='flex flex-col gap-3 border-t border-[#f0f0f0] p-4.5'>
+            <div className='flex justify-between text-[13px] text-[#7a7a7a]'>
               <div>Subtotal</div>
               <div>฿{subtotal}</div>
             </div>
-            <div className='flex justify-between text-base font-bold'>
+            <div className='flex justify-between text-base font-semibold text-[#1d1d1f]'>
               <div>Total</div>
               <div>฿{total}</div>
             </div>
 
             <div className='flex gap-2'>
               <Button
-                variant={paymentMethod === 'promptpay' ? 'default' : 'outline'}
+                variant='outline'
                 size='xs'
+                className={cn(
+                  'rounded-full',
+                  paymentMethod === 'promptpay'
+                    ? 'border-[#000000] bg-[#000000] text-white hover:bg-[#1d1d1f]'
+                    : 'border-[#e0e0e0] text-[#1d1d1f]',
+                )}
                 onClick={() => setPaymentMethod('promptpay')}
               >
                 PromptPay QR
               </Button>
               <Button
-                variant={paymentMethod === 'card' ? 'default' : 'outline'}
+                variant='outline'
                 size='xs'
+                className={cn(
+                  'rounded-full',
+                  paymentMethod === 'card'
+                    ? 'border-[#000000] bg-[#000000] text-white hover:bg-[#1d1d1f]'
+                    : 'border-[#e0e0e0] text-[#1d1d1f]',
+                )}
                 onClick={() => setPaymentMethod('card')}
               >
                 Card
               </Button>
               <Button
-                variant={paymentMethod === 'cash' ? 'default' : 'outline'}
+                variant='outline'
                 size='xs'
+                className={cn(
+                  'rounded-full',
+                  paymentMethod === 'cash'
+                    ? 'border-[#000000] bg-[#000000] text-white hover:bg-[#1d1d1f]'
+                    : 'border-[#e0e0e0] text-[#1d1d1f]',
+                )}
                 onClick={() => setPaymentMethod('cash')}
               >
                 Cash
@@ -1025,7 +1086,7 @@ export default function ScanToOrder() {
 
             <Button
               size='lg'
-              className='h-auto rounded-[10px] py-3.5 text-sm'
+              className='h-auto rounded-full bg-[#000000] py-3.5 text-sm text-white transition-transform active:scale-95 hover:bg-[#1d1d1f]'
               disabled={cartIsEmpty}
               onClick={placeOrder}
             >
