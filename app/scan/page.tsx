@@ -321,7 +321,7 @@ export default function ScanToOrder() {
             >
               <ShoppingCart className='size-4.75' />
               {cartCount > 0 && (
-                <span className='absolute -top-1.5 -right-1.5 flex h-4.5 min-w-4.5 items-center justify-center rounded-full border-2 border-white bg-[#000000] px-1 text-[11px] font-bold text-white'>
+                <span className='absolute -top-1.5 -right-1.5 flex h-4.5 min-w-4.5 items-center justify-center rounded-full border-2 border-white bg-[#ee2f2f] px-1 text-[11px] font-bold text-white'>
                   {cartCount}
                 </span>
               )}
