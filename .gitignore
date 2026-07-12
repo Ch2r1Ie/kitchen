@@ -40,7 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-schema.sql
 schema.drawio
 design.md
 sql

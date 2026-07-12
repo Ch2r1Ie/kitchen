@@ -453,7 +453,7 @@ export default function ScanToOrder() {
                     className='flex justify-between text-sm text-[#1d1d1f]'
                   >
                     <div>
-                      {tl.qty}× {tl.name}
+                      {tl.qty}× {tl.nameTh}
                     </div>
                     <div className='font-semibold'>฿{tl.lineTotal}</div>
                   </div>
