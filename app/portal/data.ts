@@ -3,7 +3,7 @@ import { LayoutGrid, BarChart3, Menu as MenuIconLucide, QrCode } from "lucide-re
 export type OrderStatus = "received" | "preparing" | "ready" | "served";
 export type TableStatus = "empty" | "occupied" | "bill";
 
-export type OrderItem = { name: string; qty: number };
+export type OrderItem = { name: string; nameTh: string; qty: number };
 export type Order = {
   id: string;
   table: number;
@@ -16,26 +16,20 @@ export type Order = {
 export type TableRec = { id: number; status: TableStatus; total: number; elapsed: string };
 
 export type MenuItem = {
-  id: string;
+  id: number;
+  image: string;
+  category: number;
   name: string;
-  category: string;
+  nameTh: string;
+  desc: string;
   price: number;
+  spicy: boolean;
   available: boolean;
 };
 
-export type Category = { id: string; name: string };
+export type Category = { id: number; name: string; nameTh: string };
 
 export type View = "orders" | "sales" | "menu" | "qr";
-
-export const CATEGORIES: Category[] = [
-  { id: "appetizers", name: "ของทานเล่น" },
-  { id: "noodles", name: "ก๋วยเตี๋ยว" },
-  { id: "rice", name: "ข้าว" },
-  { id: "grilled", name: "ปิ้งย่าง" },
-  { id: "soups", name: "ต้ม" },
-  { id: "drinks", name: "เครื่องดื่ม" },
-  { id: "desserts", name: "ของหวาน" },
-];
 
 export const STATUS_LABELS: Record<OrderStatus, string> = {
   received: "รับออเดอร์แล้ว",
@@ -52,20 +46,6 @@ export const INITIAL_TABLES: TableRec[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
   return { id, status: "empty" as const, total: 0, elapsed: "" };
 });
 
-export const INITIAL_MENU: MenuItem[] = [
-  { id: "padthai", name: "Pad Thai", category: "noodles", price: 129, available: true },
-  { id: "padseeew", name: "Pad See Ew", category: "noodles", price: 119, available: true },
-  { id: "boatnoodle", name: "Boat Noodles", category: "noodles", price: 69, available: true },
-  { id: "khaopad", name: "Thai Fried Rice", category: "rice", price: 109, available: true },
-  { id: "khaomangai", name: "Khao Man Gai", category: "rice", price: 99, available: true },
-  { id: "basilrice", name: "Basil Fried Rice", category: "rice", price: 109, available: false },
-  { id: "moopin", name: "Grilled Pork Skewers", category: "grilled", price: 59, available: true },
-  { id: "satay", name: "Chicken Satay", category: "grilled", price: 89, available: true },
-  { id: "tomyum", name: "Tom Yum Goong", category: "soups", price: 149, available: true },
-  { id: "thaitea", name: "Thai Iced Tea", category: "drinks", price: 49, available: true },
-  { id: "mangosticky", name: "Mango Sticky Rice", category: "desserts", price: 99, available: true },
-];
-
 export const WEEK_SALES = [
   { day: "จ", sales: 8200 },
   { day: "อ", sales: 9400 },
@@ -76,8 +56,8 @@ export const WEEK_SALES = [
   { day: "อา", sales: 13200 },
 ];
 
-export function categoryName(list: Category[], id: string) {
-  return list.find((c) => c.id === id)?.name ?? id;
+export function categoryName(list: Category[], id: number) {
+  return list.find((c) => c.id === id)?.nameTh ?? String(id);
 }
 
 export function statusBadgeClass(status: OrderStatus) {

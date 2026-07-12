@@ -43,7 +43,11 @@ export default function OrdersPage() {
                   โต๊ะ {o.table}
                 </TableCell>
                 <TableCell className='text-muted-foreground'>
-                  {o.items.map((it) => `${it.qty}× ${it.name}`).join(', ')}
+                  {o.items.map((it) => (
+                    <div key={it.name}>
+                      {it.qty} × {it.nameTh}
+                    </div>
+                  ))}
                 </TableCell>
                 <TableCell className='text-right font-bold'>
                   ฿{o.total}

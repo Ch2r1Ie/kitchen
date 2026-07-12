@@ -1,0 +1,123 @@
+[
+  {
+    "id": 4,
+    "image": "https://picsum.photos/400/300",
+    "category": 2,
+    "name": "Pad Thai",
+    "nameTh": "ผัดไทย",
+    "desc": "Stir-fried rice noodles, shrimp, tofu, egg, peanuts",
+    "price": 129,
+    "spicy": true,
+    "available": true
+  },
+  {
+    "id": 5,
+    "image": "https://picsum.photos/400/300",
+    "category": 2,
+    "name": "Pad See Ew",
+    "nameTh": "ผัดซีอิ๊ว",
+    "desc": "Wide rice noodles, Chinese broccoli, dark soy",
+    "price": 119,
+    "spicy": false,
+    "available": true
+  },
+  {
+    "id": 6,
+    "image": "https://picsum.photos/400/300",
+    "category": 2,
+    "name": "Boat Noodles",
+    "nameTh": "ก๋วยเตี๋ยวเรือ",
+    "desc": "Rich pork broth, herbs, blood tofu",
+    "price": 69,
+    "spicy": true,
+    "available": true
+  },
+  {
+    "id": 7,
+    "image": "https://picsum.photos/400/300",
+    "category": 3,
+    "name": "Thai Fried Rice",
+    "nameTh": "ข้าวผัด",
+    "desc": "Jasmine rice, egg, onion, choice of protein",
+    "price": 109,
+    "spicy": false,
+    "available": true
+  },
+  {
+    "id": 8,
+    "image": "https://picsum.photos/400/300",
+    "category": 3,
+    "name": "Khao Man Gai",
+    "nameTh": "ข้าวมันไก่",
+    "desc": "Hainanese chicken rice, ginger-soy sauce",
+    "price": 99,
+    "spicy": false,
+    "available": true
+  },
+  {
+    "id": 9,
+    "image": "https://picsum.photos/400/300",
+    "category": 3,
+    "name": "Basil Fried Rice",
+    "nameTh": "ข้าวผัดกะเพรา",
+    "desc": "Holy basil, chili, garlic, fried egg on top",
+    "price": 109,
+    "spicy": true,
+    "available": false
+  },
+  {
+    "id": 10,
+    "image": "https://picsum.photos/400/300",
+    "category": 4,
+    "name": "Grilled Pork Skewers",
+    "nameTh": "หมูปิ้ง",
+    "desc": "Marinated pork skewers, charcoal grilled (5 pcs)",
+    "price": 59,
+    "spicy": false,
+    "available": true
+  },
+  {
+    "id": 11,
+    "image": "https://picsum.photos/400/300",
+    "category": 4,
+    "name": "Chicken Satay",
+    "nameTh": "สะเต๊ะไก่",
+    "desc": "Grilled chicken skewers, peanut sauce (5 pcs)",
+    "price": 89,
+    "spicy": false,
+    "available": true
+  },
+  {
+    "id": 13,
+    "image": "https://picsum.photos/400/300",
+    "category": 5,
+    "name": "Tom Yum Goong",
+    "nameTh": "ต้มยำกุ้ง",
+    "desc": "Hot & sour prawn soup, lemongrass, chili",
+    "price": 149,
+    "spicy": true,
+    "available": true
+  },
+  {
+    "id": 15,
+    "image": "https://picsum.photos/400/300",
+    "category": 6,
+    "name": "Thai Iced Tea",
+    "nameTh": "ชาไทย",
+    "desc": "Sweet milk tea over ice",
+    "price": 49,
+    "spicy": false,
+    "available": true
+  },
+  {
+    "id": 18,
+    "image": "https://picsum.photos/400/300",
+    "category": 7,
+    "name": "Mango Sticky Rice",
+    "nameTh": "ข้าวเหนียวมะม่วง",
+    "desc": "Sweet sticky rice, coconut cream, ripe mango",
+    "price": 99,
+    "spicy": false,
+    "available": true
+  }
+]
