@@ -1,0 +1,9 @@
+[
+  { "id": 1, "name": "Appetizers", "nameTh": "ของทานเล่น" },
+  { "id": 2, "name": "Noodles", "nameTh": "ก๋วยเตี๋ยว" },
+  { "id": 3, "name": "Rice", "nameTh": "ข้าว" },
+  { "id": 4, "name": "Grilled & BBQ", "nameTh": "ปิ้งย่าง" },
+  { "id": 5, "name": "Soups", "nameTh": "ต้ม" },
+  { "id": 6, "name": "Drinks", "nameTh": "เครื่องดื่ม" },
+  { "id": 7, "name": "Desserts", "nameTh": "ของหวาน" }
+]
