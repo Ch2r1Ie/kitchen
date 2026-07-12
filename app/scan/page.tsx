@@ -574,7 +574,7 @@ export default function ScanToOrder() {
                 className={cn(
                   'rounded-full',
                   paymentMethod === 'promptpay'
-                    ? 'border-[#000000] bg-[#000000] text-white hover:bg-[#1d1d1f]'
+                    ? 'border-[#000000] bg-[#000000] text-white'
                     : 'border-[#e0e0e0] text-[#1d1d1f]',
                 )}
                 onClick={() => setPaymentMethod('promptpay')}
@@ -587,7 +587,7 @@ export default function ScanToOrder() {
                 className={cn(
                   'rounded-full',
                   paymentMethod === 'card'
-                    ? 'border-[#000000] bg-[#000000] text-white hover:bg-[#1d1d1f]'
+                    ? 'border-[#000000] bg-[#000000] text-white'
                     : 'border-[#e0e0e0] text-[#1d1d1f]',
                 )}
                 onClick={() => setPaymentMethod('card')}
@@ -600,7 +600,7 @@ export default function ScanToOrder() {
                 className={cn(
                   'rounded-full',
                   paymentMethod === 'cash'
-                    ? 'border-[#000000] bg-[#000000] text-white hover:bg-[#1d1d1f]'
+                    ? 'border-[#000000] bg-[#000000] text-white'
                     : 'border-[#e0e0e0] text-[#1d1d1f]',
                 )}
                 onClick={() => setPaymentMethod('cash')}
