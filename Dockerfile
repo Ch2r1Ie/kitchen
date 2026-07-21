@@ -9,6 +9,7 @@ WORKDIR /src
 RUN corepack enable
 COPY --from=deps /src/node_modules ./node_modules
 COPY . .
+RUN mkdir -p public
 RUN pnpm build
 
 FROM node:22-alpine AS run
