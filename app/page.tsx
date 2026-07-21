@@ -92,7 +92,6 @@ export default function Website() {
 
   return (
     <div className='min-h-screen bg-background text-foreground'>
-      {/* Nav */}
       <div className='sticky top-0 z-30 flex flex-wrap items-center justify-between gap-3 border-b border-border bg-background px-6 py-4 sm:px-8'>
         {isMobile ? (
           <div className='flex size-8.5 items-center justify-center rounded-[9px] bg-primary text-primary-foreground'>
