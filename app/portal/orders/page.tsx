@@ -3,11 +3,16 @@
 import { useMemo, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
+import { cn } from '@/src/lib/utils'
+import { Button } from '@/src/components/ui/button'
+import { Card } from '@/src/components/ui/card'
+import { Badge } from '@/src/components/ui/badge'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+} from '@/src/components/ui/table'
 
 import { STATUS_LABELS, statusBadgeClass, type Order } from '../data'
 import ordersData from './orders.json'

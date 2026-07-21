@@ -3,11 +3,11 @@
 import { useMemo, useState } from 'react'
 import { ImagePlus, Trash2, X } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Switch } from '@/components/ui/switch'
+import { cn } from '@/src/lib/utils'
+import { Button } from '@/src/components/ui/button'
+import { Card } from '@/src/components/ui/card'
+import { Input } from '@/src/components/ui/input'
+import { Switch } from '@/src/components/ui/switch'
 import {
   Combobox,
   ComboboxContent,
@@ -15,7 +15,7 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
-} from '@/components/ui/combobox'
+} from '@/src/components/ui/combobox'
 import {
   Table,
   TableBody,
@@ -23,7 +23,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
+} from '@/src/components/ui/table'
 
 import { type Category, type MenuItem } from '../data'
 import menuData from './menu.json'

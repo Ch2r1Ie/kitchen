@@ -14,17 +14,17 @@ import {
   UtensilsCrossed,
 } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/src/lib/utils'
 
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
+import { Button } from '@/src/components/ui/button'
+import { Input } from '@/src/components/ui/input'
+import { Badge } from '@/src/components/ui/badge'
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
-} from '@/components/ui/sheet'
+} from '@/src/components/ui/sheet'
 
 import mockData from '@/app/scan/mock.json'
 

@@ -4,17 +4,17 @@ import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight, QrCode } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Checkbox } from '@/components/ui/checkbox'
+import { Button } from '@/src/components/ui/button'
+import { Card } from '@/src/components/ui/card'
+import { Input } from '@/src/components/ui/input'
+import { Checkbox } from '@/src/components/ui/checkbox'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
-} from '@/components/ui/dialog'
+} from '@/src/components/ui/dialog'
 
 type Update = { imgLabel: string; date: string; title: string; desc: string }
 
