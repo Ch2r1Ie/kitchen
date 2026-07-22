@@ -36,6 +36,8 @@ jobs:
           push: true
           build-args: |
             NEXT_PUBLIC_API_URL=${{ secrets.DOMAIN_NAME }}
+            NEXT_PUBLIC_GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+            NEXT_PUBLIC_GOOGLE_REDIRECT_URL=${{ secrets.DOMAIN_NAME }}
           tags: |
             ${{ steps.meta.outputs.tag }}
             ${{ steps.meta.outputs.image }}:latest
