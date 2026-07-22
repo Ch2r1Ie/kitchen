@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { Inter } from 'next/font/google'
 import { QrCode, ArrowUpRight, Menu } from 'lucide-react'
-
 import { Input } from '@/src/components/ui/input'
 import { Checkbox } from '@/src/components/ui/checkbox'
 import {
