@@ -3,7 +3,10 @@ import { CheckOutReq, CheckOutResp } from '@/src/lib/api/types/payment'
 
 class PaymentService {
   checkOut = async (data: CheckOutReq) => {
-    return axiosService.post<{ data: CheckOutResp }>('/payment/checkout', data)
+    return axiosService.post<{ data: CheckOutResp }>(
+      '/api/payment/checkout',
+      data,
+    )
   }
 }
 

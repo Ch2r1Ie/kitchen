@@ -60,5 +60,10 @@ jobs:
               --restart unless-stopped \
               --network host \
               --env-file /root/frontend.env \
+              --memory 384m \
+              --memory-swap 384m \
+              --log-driver json-file \
+              --log-opt max-size=10m \
+              --log-opt max-file=3 \
               ${{ needs.build-and-push.outputs.image_tag }}
             docker image prune -f

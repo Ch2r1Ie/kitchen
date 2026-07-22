@@ -5,7 +5,7 @@ import { AuthenReq, AuthResponse } from '@/src/lib/api/types/auth'
 class AuthService {
   register = async (data: AuthenReq) => {
     const resp = await axiosService.post<{ data: AuthResponse }>(
-      '/auth/register',
+      '/api/auth/register',
       data,
     )
     setAccessToken(resp.data.data.accessToken)
@@ -14,14 +14,14 @@ class AuthService {
 
   refresh = async () => {
     const resp = await axiosService.post<{ data: AuthResponse }>(
-      '/auth/refresh',
+      '/api/auth/refresh',
     )
     setAccessToken(resp.data.data.accessToken)
     return resp
   }
 
   signOut = async () => {
-    const resp = await axiosService.post<{ data: null }>('/auth/signout')
+    const resp = await axiosService.post<{ data: null }>('/api/auth/signout')
     clearAccessToken()
     return resp
   }
