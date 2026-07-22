@@ -20,36 +20,46 @@ const UPDATES: Update[] = [
     title: 'New Seasonal Menu Is Here',
     desc: 'Fresh grilled squid and basil fried rice just added — available for a limited time.',
   },
-  // {
-  //   imgLabel: 'promotion photo',
-  //   date: 'Jun 28, 2026',
-  //   title: '20% Off This Weekend',
-  //   desc: 'Scan, order and enjoy 20% off all noodle dishes, Saturday and Sunday only.',
-  // },
-  // {
-  //   imgLabel: 'takeaway photo',
-  //   date: 'Jun 15, 2026',
-  //   title: 'Now Open for Takeaway',
-  //   desc: 'Skip the table — order ahead and pick up your favorites on the way home.',
-  // },
-  // {
-  //   imgLabel: 'songkran photo',
-  //   date: 'Jun 3, 2026',
-  //   title: 'Songkran Family Set',
-  //   desc: 'A shareable set for four — soup, rice, grilled skewers and dessert at one price.',
-  // },
-  // {
-  //   imgLabel: 'renovation photo',
-  //   date: 'May 20, 2026',
-  //   title: 'Fresh New Dining Room',
-  //   desc: 'We refreshed the seating area — come see the new look on your next visit.',
-  // },
-  // {
-  //   imgLabel: 'hiring photo',
-  //   date: 'May 8, 2026',
-  //   title: "We're Hiring Kitchen Staff",
-  //   desc: 'Join our growing team — message us on LINE to apply.',
-  // },
+  {
+    imgLabel: 'promotion photo',
+    imgSrc:
+      'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=520&h=325&fit=crop&q=80',
+    date: 'Jun 28, 2026',
+    title: '20% Off This Weekend',
+    desc: 'Scan, order and enjoy 20% off all noodle dishes, Saturday and Sunday only.',
+  },
+  {
+    imgLabel: 'takeaway photo',
+    imgSrc:
+      'https://images.unsplash.com/photo-1526367790999-0150786686a2?w=520&h=325&fit=crop&q=80',
+    date: 'Jun 15, 2026',
+    title: 'Now Open for Takeaway',
+    desc: 'Skip the table — order ahead and pick up your favorites on the way home.',
+  },
+  {
+    imgLabel: 'songkran photo',
+    imgSrc:
+      'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=520&h=325&fit=crop&q=80',
+    date: 'Jun 3, 2026',
+    title: 'Songkran Family Set',
+    desc: 'A shareable set for four — soup, rice, grilled skewers and dessert at one price.',
+  },
+  {
+    imgLabel: 'renovation photo',
+    imgSrc:
+      'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=520&h=325&fit=crop&q=80',
+    date: 'May 20, 2026',
+    title: 'Fresh New Dining Room',
+    desc: 'We refreshed the seating area — come see the new look on your next visit.',
+  },
+  {
+    imgLabel: 'hiring photo',
+    imgSrc:
+      'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=520&h=325&fit=crop&q=80',
+    date: 'May 8, 2026',
+    title: "We're Hiring Kitchen Staff",
+    desc: 'Join our growing team — message us on LINE to apply.',
+  },
 ]
 
 export function WhatHappen() {

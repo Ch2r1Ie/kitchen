@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono, Quicksand } from 'next/font/google'
 import { ApiQueryProvider } from '@/src/lib/query-client'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 import './globals.css'
 
 const geistSans = Geist({
@@ -40,7 +41,11 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${quicksand.variable} h-full antialiased`}
     >
       <body className='min-h-full flex flex-col'>
-        <ApiQueryProvider>{children}</ApiQueryProvider>
+        <GoogleOAuthProvider
+          clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
+        >
+          <ApiQueryProvider>{children}</ApiQueryProvider>
+        </GoogleOAuthProvider>
       </body>
     </html>
   )
