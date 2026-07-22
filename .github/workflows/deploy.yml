@@ -35,7 +35,7 @@ jobs:
           context: .
           push: true
           build-args: |
-            NEXT_PUBLIC_API_URL=https://sandboxstudios.net
+            NEXT_PUBLIC_API_URL=${{ secrets.DOMAIN_NAME }}
           tags: |
             ${{ steps.meta.outputs.tag }}
             ${{ steps.meta.outputs.image }}:latest
