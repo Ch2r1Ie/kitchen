@@ -1,3 +1,5 @@
+import { useRouter } from 'next/navigation'
+import { useGoogleLogin } from '@react-oauth/google'
 import { Input } from '@/src/components/ui/input'
 import { Checkbox } from '@/src/components/ui/checkbox'
 import {
@@ -7,12 +9,14 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/src/components/ui/dialog'
+import { useMutationAuthRegister } from '@/src/hooks/api/useMutationAuthRegister'
+import { setCookie } from '@/src/actions/use-cookie'
+import type { AuthResponse } from '@/src/lib/api/types/auth'
 
 type LoginDialogProps = {
   open: boolean
   onOpenChange: (open: boolean) => void
   onSignIn: () => void
-  onGoogleSignIn: () => void
   signingIn: boolean
 }
 
@@ -20,9 +24,32 @@ export function LoginDialog({
   open,
   onOpenChange,
   onSignIn,
-  onGoogleSignIn,
   signingIn,
 }: LoginDialogProps) {
+  const router = useRouter()
+
+  const { isPending, mutate: getAccessToken } = useMutationAuthRegister({
+    onSuccess: (resp: AuthResponse) => {
+      setCookie('access_token', resp.accessToken)
+      router.push('/portal')
+    },
+    onError: () => {
+      router.push('/')
+    },
+  })
+
+  const redirect_url = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URL!
+  const onGoogleSignIn = useGoogleLogin({
+    flow: 'auth-code',
+    redirect_uri: redirect_url,
+    onSuccess: (response) => {
+      getAccessToken({ authCode: response.code })
+    },
+    onError: () => {
+      router.push('/')
+    },
+  })
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='max-w-sm rounded-2xl'>
@@ -37,8 +64,8 @@ export function LoginDialog({
 
         <div className='flex flex-col gap-3'>
           <button
-            onClick={onGoogleSignIn}
-            disabled={signingIn}
+            onClick={() => onGoogleSignIn()}
+            disabled={signingIn || isPending}
             className='flex items-center justify-center gap-2.5 rounded-full bg-[#eef0f3] px-5 py-3 text-[16px] font-semibold text-[#0a0b0d] disabled:opacity-50'
           >
             <svg width='18' height='18' viewBox='0 0 48 48'>

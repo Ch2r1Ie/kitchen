@@ -18,11 +18,6 @@ import { WhyChooseUs } from '@/src/components/landing/WhyChooseUs'
 import { LineCta } from '@/src/components/landing/LineCta'
 import { LoginDialog } from '@/src/components/landing/LoginDialog'
 import { Button } from '@base-ui/react'
-import { useGoogleLogin } from '@react-oauth/google'
-import { useMutationAuthRegister } from '../src/hooks/api/useMutationAuthRegister'
-import { setCookie } from '../src/actions/use-cookie'
-import type { AuthResponse } from '../src/lib/api/types/auth'
-import { useRouter } from 'next/navigation'
 
 const inter = Inter({
   variable: '--font-coinbase',
@@ -35,32 +30,7 @@ export default function Website() {
   const [showMobileNav, setShowMobileNav] = useState(false)
   const [signingIn, setSigningIn] = useState(false)
   const signInTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const router = useRouter()
   const { data: stats } = useQueryWebsiteStats()
-
-  const { isPending: isPending, mutate: getAccessToken } =
-    useMutationAuthRegister({
-      onSuccess: (resp: AuthResponse) => {
-        setCookie('access_token', resp.accessToken)
-        router.push('/portal')
-      },
-
-      onError: () => {
-        router.push('/')
-      },
-    })
-
-  const redirect_url = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URL!
-  const googleSignIn = useGoogleLogin({
-    flow: 'auth-code',
-    redirect_uri: redirect_url,
-    onSuccess: (response) => {
-      getAccessToken({ authCode: response.code })
-    },
-    onError: () => {
-      router.push('/')
-    },
-  })
 
   useEffect(() => {
     return () => {
@@ -241,7 +211,6 @@ export default function Website() {
         open={showLogin}
         onOpenChange={setShowLogin}
         onSignIn={signIn}
-        onGoogleSignIn={googleSignIn}
         signingIn={signingIn}
       />
     </div>

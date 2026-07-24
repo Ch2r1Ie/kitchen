@@ -38,11 +38,13 @@ export default function QrPage() {
   ]
 
   return (
-    <div className='px-8 pt-7 pb-15'>
-      <div className='mb-6 flex flex-wrap items-center justify-between gap-3'>
+    <div className='px-8 pt-12 pb-15'>
+      <div className='mb-8 flex flex-wrap items-center justify-between gap-3'>
         <div>
-          <div className='mb-0.5 text-[22px] font-extrabold'>QR โต๊ะ</div>
-          <div className='text-sm text-muted-foreground'>
+          <div className='mb-1 text-[36px] leading-[1.11] font-normal tracking-[-0.5px]'>
+            QR โต๊ะ
+          </div>
+          <div className='text-base text-muted-foreground'>
             {tables.length} โต๊ะ · พิมพ์และวางไว้ที่โต๊ะ
             หรือใช้สำหรับสั่งกลับบ้าน
           </div>

@@ -1,8 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { ArrowUpRight } from 'lucide-react'
+import { usePathname, useRouter } from 'next/navigation'
+import { ArrowUpRight, LogOut } from 'lucide-react'
+
+import authService from '@/src/https/auth/authService'
+import { deleteCookie } from '@/src/actions/use-cookie'
 
 import { Separator } from '@/src/components/ui/separator'
 import {
@@ -34,8 +37,15 @@ export default function PortalLayout({
   children: React.ReactNode
 }) {
   const pathname = usePathname()
+  const router = useRouter()
   const activeView = (NAV_DEFS.find((n) => pathname.startsWith(n.href))?.id ??
     'orders') as View
+
+  async function signOut() {
+    await authService.signOut()
+    deleteCookie('access_token')
+    router.push('/')
+  }
 
   return (
     <SidebarProvider>

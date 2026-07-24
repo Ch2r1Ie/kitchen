@@ -116,10 +116,12 @@ export default function MenuPage() {
   }
 
   return (
-    <div className='px-8 pt-7 pb-15'>
-      <div className='mb-6'>
-        <div className='mb-0.5 text-[22px] font-extrabold'>จัดการเมนู</div>
-        <div className='text-sm text-muted-foreground'>
+    <div className='px-8 pt-12 pb-15'>
+      <div className='mb-8'>
+        <div className='mb-1 text-[36px] leading-[1.11] font-normal tracking-[-0.5px]'>
+          จัดการเมนู
+        </div>
+        <div className='text-base text-muted-foreground'>
           {menuItems.length} รายการ · เปิด/ปิดสถานะ แก้ไขราคา หรือเพิ่มเมนูใหม่
         </div>
       </div>
@@ -152,7 +154,7 @@ export default function MenuPage() {
                     title={
                       canRemove ? 'ลบหมวดหมู่' : 'ลบไม่ได้ เพราะมีเมนูอยู่'
                     }
-                    className='flex size-5 items-center justify-center rounded-md text-muted-foreground transition-colors enabled:hover:bg-destructive enabled:hover:text-white disabled:cursor-not-allowed disabled:opacity-30'
+                    className='flex size-5 items-center justify-center rounded-full text-muted-foreground transition-colors enabled:hover:bg-destructive enabled:hover:text-white disabled:cursor-not-allowed disabled:opacity-30'
                   >
                     <X className='size-3' />
                   </button>
@@ -188,7 +190,7 @@ export default function MenuPage() {
         </div>
 
         <div className='grid grid-cols-[auto_1fr] gap-5'>
-          <label className='flex size-full h-32 w-32 cursor-pointer flex-col items-center justify-center gap-1.5 overflow-hidden rounded-lg border border-dashed border-border bg-muted/40 text-muted-foreground hover:bg-muted/70'>
+          <label className='flex size-full h-32 w-32 cursor-pointer flex-col items-center justify-center gap-1.5 overflow-hidden rounded-2xl border border-dashed border-border bg-muted/40 text-muted-foreground hover:bg-muted/70'>
             {newItemImage ? (
               <img
                 src={newItemImage}
@@ -306,7 +308,7 @@ export default function MenuPage() {
             {filteredItems.map((m) => (
               <TableRow key={m.id} className='hover:bg-transparent'>
                 <TableCell className='w-16 py-3.5 pl-5'>
-                  <div className='size-13 rounded-lg bg-[repeating-linear-gradient(45deg,var(--muted),var(--muted)_8px,var(--border)_8px,var(--border)_16px)]' />
+                  <div className='size-13 rounded-full bg-[repeating-linear-gradient(45deg,var(--muted),var(--muted)_8px,var(--border)_8px,var(--border)_16px)]' />
                 </TableCell>
                 <TableCell>
                   <div className='text-sm font-semibold'>{m.nameTh}</div>
@@ -320,7 +322,7 @@ export default function MenuPage() {
                       onChange={(e) =>
                         setItemPrice(m.id, parseInt(e.target.value, 10) || 0)
                       }
-                      className='h-auto w-16 py-1.5 text-[13px]'
+                      className='h-auto w-16 py-1.5 font-mono text-[13px]'
                     />
                   </div>
                 </TableCell>

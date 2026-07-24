@@ -14,10 +14,21 @@ import {
   TableRow,
 } from '@/src/components/ui/table'
 
-import { STATUS_LABELS, statusBadgeClass, type Order } from '../data'
+import { STATUS_LABELS, type Order } from '../data'
 import ordersData from './orders.json'
 
 const PAGE_SIZE = 20
+
+const clockFormatter = new Intl.DateTimeFormat('th-TH', {
+  hour: '2-digit',
+  minute: '2-digit',
+})
+
+const dateFormatter = new Intl.DateTimeFormat('th-TH', {
+  day: 'numeric',
+  month: 'short',
+  year: '2-digit',
+})
 
 export default function OrdersPage() {
   const [orders] = useState<Order[]>(ordersData as Order[])
@@ -30,9 +41,11 @@ export default function OrdersPage() {
   }, [orders, page])
 
   return (
-    <div className='px-8 pt-7 pb-15'>
-      <div className='mb-0.5 text-[22px] font-extrabold'>ออเดอร์ล่าสุด</div>
-      <div className='mb-6 text-sm text-muted-foreground'>
+    <div className='px-8 pt-12 pb-15'>
+      <div className='mb-1 text-[36px] leading-[1.11] font-normal tracking-[-0.5px]'>
+        ออเดอร์ล่าสุด
+      </div>
+      <div className='mb-8 text-base text-muted-foreground'>
         รายการออเดอร์ล่าสุด · {orders.length} รายการ
       </div>
 
@@ -41,7 +54,7 @@ export default function OrdersPage() {
           <TableBody>
             {pageOrders.map((o) => (
               <TableRow key={o.id} className='hover:bg-transparent'>
-                <TableCell className='w-14 py-3.5 pl-5 font-bold'>
+                <TableCell className='py-3.5 pl-5 font-mono font-medium whitespace-nowrap'>
                   {o.id}
                 </TableCell>
                 <TableCell className='w-18 text-muted-foreground'>
@@ -54,18 +67,23 @@ export default function OrdersPage() {
                     </div>
                   ))}
                 </TableCell>
-                <TableCell className='text-right font-bold'>
+                <TableCell className='text-right font-mono font-medium'>
                   ฿{o.total}
                 </TableCell>
-                <TableCell className='pr-5 text-right'>
+                <TableCell className='text-right'>
                   <Badge
+                    variant='outline'
                     className={cn(
-                      'h-auto rounded-full px-2.5 py-1 font-bold',
-                      statusBadgeClass(o.status),
+                      'h-auto rounded-full border-transparent bg-secondary px-3 py-1 font-semibold text-foreground',
                     )}
                   >
                     {STATUS_LABELS[o.status]}
                   </Badge>
+                </TableCell>
+                <TableCell className='pr-5 text-right whitespace-nowrap font-mono font-medium'>
+                  {clockFormatter.format(new Date(o.createdAt))}
+                  {'  '}
+                  {dateFormatter.format(new Date(o.createdAt))}
                 </TableCell>
               </TableRow>
             ))}
